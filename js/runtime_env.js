@@ -10,8 +10,16 @@ function parseEnvText(text) {
         if (idx <= 0) continue;
 
         const key = trimmed.slice(0, idx).trim();
-        const rawValue = trimmed.slice(idx + 1).trim();
+        let rawValue = trimmed.slice(idx + 1).trim();
         if (!key) continue;
+
+        // Allow quoted .env values without keeping wrapper quotes.
+        if (
+            (rawValue.startsWith('"') && rawValue.endsWith('"')) ||
+            (rawValue.startsWith("'") && rawValue.endsWith("'"))
+        ) {
+            rawValue = rawValue.slice(1, -1);
+        }
 
         out[key] = rawValue;
     }
@@ -25,47 +33,21 @@ function getRuntimeEnvFromWindow() {
     return fromWindow;
 }
 
-function buildEnvCandidatePaths(envPath) {
-    const candidates = [envPath];
-    if (envPath.endsWith(".env")) {
-        candidates.push(envPath.replace(/\.env$/, "env.public"));
-    }
-    candidates.push("./env.public");
-    candidates.push("../env.public");
-    return [...new Set(candidates)];
-}
-
 export async function loadRuntimeEnv(envPath = "./.env") {
     const fromWindow = getRuntimeEnvFromWindow();
     if (fromWindow) return fromWindow;
 
-    const candidates = buildEnvCandidatePaths(envPath);
-    const errors = [];
-
-    for (const path of candidates) {
-        try {
-            const response = await fetch(path, { cache: "no-store" });
-            if (!response.ok) {
-                errors.push(`${path} -> HTTP ${response.status}`);
-                continue;
-            }
-
-            const text = await response.text();
-            return parseEnvText(text);
-        } catch (err) {
-            errors.push(`${path} -> ${err?.message || "request failed"}`);
-        }
-    }
-
     try {
-        const mod = await import("../env.public.js");
-        const value = mod?.RUNTIME_ENV || mod?.default;
-        if (value && typeof value === "object") return value;
-    } catch (err) {
-        errors.push(`../env.public.js -> ${err?.message || "import failed"}`);
-    }
+        const response = await fetch(envPath, { cache: "no-store" });
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status}`);
+        }
 
-    throw new Error(`Unable to load runtime env. Attempts: ${errors.join(" | ")}`);
+        const text = await response.text();
+        return parseEnvText(text);
+    } catch (err) {
+        throw new Error(`Unable to load runtime env from ${envPath}: ${err?.message || "request failed"}`);
+    }
 }
 
 export function buildFirebaseConfig(env) {
