@@ -13,16 +13,15 @@ import {
     where,
     deleteDoc,
 } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+import { loadRuntimeEnv, buildFirebaseConfig, validateFirebaseConfig } from "./runtime_env.js";
 
-const firebaseConfig = {
-    apiKey: "YOUR_FIREBASE_API_KEY",
-    authDomain: "YOUR_FIREBASE_AUTH_DOMAIN",
-    projectId: "YOUR_FIREBASE_PROJECT_ID",
-    storageBucket: "YOUR_FIREBASE_STORAGE_BUCKET",
-    messagingSenderId: "YOUR_FIREBASE_MESSAGING_SENDER_ID",
-    appId: "YOUR_FIREBASE_APP_ID",
-    measurementId: "YOUR_FIREBASE_MEASUREMENT_ID",
-};
+const env = await loadRuntimeEnv("../.env");
+const firebaseConfig = buildFirebaseConfig(env);
+const firebaseConfigCheck = validateFirebaseConfig(firebaseConfig);
+
+if (!firebaseConfigCheck.ok) {
+    throw new Error(`Missing Firebase env keys: ${firebaseConfigCheck.missing.join(", ")}`);
+}
 
 const app = initializeApp(firebaseConfig);
 try {
@@ -211,7 +210,7 @@ function createPublicPostCard(postId, postData) {
     const meta = document.createElement("p");
     meta.className = "blog-post-meta";
     const authorName = (postData.authorName || "").trim() || getAuthorDisplayName(postData.authorEmail);
-    
+
     if (postData.authorUid) {
         const authorLink = document.createElement("a");
         authorLink.href = `blog_writer.html?uid=${encodeURIComponent(postData.authorUid)}`;
@@ -386,13 +385,13 @@ async function loadPublicSinglePost(postId) {
 
         if (authorBox && authorNameEl && authorShortEl) {
             const authorDisplayName = (profile?.displayName || "").trim() || authorName;
-            
+
             if (post.authorUid) {
                 authorNameEl.innerHTML = `<a href="blog_writer.html?uid=${encodeURIComponent(post.authorUid)}" style="color: inherit; text-decoration: none;">${escapeHtml(authorDisplayName)}</a>`;
             } else {
                 authorNameEl.textContent = authorDisplayName;
             }
-            
+
             authorShortEl.textContent = (profile?.shortDescription || profile?.speciality || post.authorShortDescription || "").trim() || "Writer";
 
             const profileImage = (profile?.pfpUrl || post.authorPfpUrl || "").trim();
@@ -439,7 +438,7 @@ async function loadPublicSinglePost(postId) {
 
         const editBtn = $("blog_post_view_edit");
         const deleteBtn = $("blog_post_view_delete");
-        
+
         // Show edit and delete buttons only to authorized non-anonymous users
         if (auth.currentUser && !auth.currentUser.isAnonymous) {
             if (editBtn) {
@@ -591,7 +590,7 @@ async function loadPublicWriterProfile(writerUid) {
         nameEl.textContent = name;
         ageEl.textContent = age ? `${age} years old` : "Age not provided";
         postsCountEl.textContent = `${posts.length} post${posts.length === 1 ? "" : "s"}`;
-        
+
         if (shortDescriptionEl) {
             const fallbackShort = (posts[0]?.data?.authorShortDescription || "").trim();
             shortDescriptionEl.textContent = (profile?.shortDescription || profile?.speciality || fallbackShort || "").trim() || "Speciality not provided";
