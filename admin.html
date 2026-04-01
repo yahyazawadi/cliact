@@ -1,0 +1,136 @@
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Eco Green | Admin Access</title>
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <link href="templatemo_style.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+
+    <div id="templatemo_header">
+
+        <div id="site_title">
+            <h1><a href="#">CLI <strong>ACTION</strong><span>Take an Action</span></a></h1>
+        </div>
+
+        <div id="templatemo_menu">
+
+            <ul>
+                <li><a href="index.html"><span></span>Home</a></li>
+                <li><a href="services.html"><span></span>Services</a></li>
+                <li><a href="portfolio.html"><span></span>Portfolio</a></li>
+                <li><a href="blog.html"><span></span>Blog</a></li>
+                <li><a href="contact.html"><span></span>Contact</a></li>
+                <li><a href="admin.html" class="current"><span></span>Admin</a></li>
+                <li id="admin_blogposting_menu" style="display: none;"><a href="admin_post.html"><span></span>Blog
+                        Posting</a></li>
+                <li id="admin_bloglist_menu" style="display: none;"><a href="admin_posts.html"><span></span>Blog
+                        Library</a></li>
+                <li id="admin_profile_menu" style="display: none;"><a href="admin_profile.html"><span></span>My
+                        Profile</a></li>
+            </ul>
+
+        </div> <!-- end of templatemo_menu -->
+
+    </div> <!-- end of templatemo_header -->
+
+    <div id="templatemo_main_wrapper">
+        <div id="templatemo_main">
+
+            <div id="templatemo_content">
+
+                <h2>Administrator Access</h2>
+                <p>Sign in to manage posts. If you don’t have an account yet, you can create one.</p>
+                <div class="cleaner_h40"></div>
+
+                <div id="contact_form">
+                    <h4>Sign In</h4>
+                    <p id="admin_auth_status"></p>
+
+                    <form id="admin_signin_form" action="#" novalidate="novalidate">
+                        <label for="admin_signin_email">Email:</label>
+                        <input type="email" id="admin_signin_email" class="required input_field" />
+                        <div class="cleaner_h10"></div>
+
+                        <label for="admin_signin_password">Password:</label>
+                        <input type="password" id="admin_signin_password" class="required input_field" />
+                        <div class="cleaner_h10"></div>
+
+                        <input type="submit" class="submit_btn" value="Sign In" />
+                    </form>
+
+                    <div class="cleaner_h40"></div>
+                    <input type="button" class="submit_btn" id="admin_goto_signup" value="Create Admin Account"
+                        onclick="window.location.href='admin_signup.html'" />
+
+                    <div id="admin_signed_in_actions" style="display: none;">
+                        <input type="button" class="submit_btn" id="admin_open_posting_btn"
+                            value="Open Blog Posting Page" style="display: none;" />
+                        <div class="cleaner_h10"></div>
+                        <input type="button" class="submit_btn" id="admin_open_posts_btn" value="Open Blog Library"
+                            style="display: none;" />
+                        <div class="cleaner_h10"></div>
+                        <input type="button" class="submit_btn" id="admin_open_profile_btn" value="Edit My Profile"
+                            style="display: none;" />
+                        <div class="cleaner_h10"></div>
+                        <input type="button" class="submit_btn" id="admin_signout_btn" value="Sign out" />
+
+                        <div class="cleaner_h40"></div>
+                        <p style="color: #666; font-size: 13px;">Signed in as <strong id="admin_user_email"></strong>.
+                        </p>
+                    </div>
+
+                    <div class="cleaner_h30"></div>
+                    <p>After sign in, the <strong>Blog Posting</strong> menu item appears above.</p>
+                </div>
+
+            </div> <!-- end of templatemo_content -->
+
+            <div id="templatemo_sidebar">
+                <div class="sidebar_box">
+                    <h2>Note</h2>
+                    <ul class="templatemo_list">
+                        <li>Use your admin email and password to sign in</li>
+                        <li>Later, sign up can be restricted to admins only</li>
+                    </ul>
+                </div>
+
+                <div class="sidebar_box">
+                    <h2>Projects</h2>
+                    <div class="news_box">
+                        <img src="images/templatemo_image_06.jpg" alt="image 6" />
+                        <p><a href="#">Suspendisse sed odio ut</a> Pellentesque tempus nec sem commodo
+                            ullamcorper.</p>
+                        <div class="cleaner"></div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="cleaner"></div>
+        </div> <!-- end of templatemo_main -->
+    </div> <!-- end of templatemo_main_wrapper -->
+
+    <div id="templatemo_footer_wrapper">
+        <div id="templatemo_footer">
+
+            Copyright © 2048 <a href="#">Your Company Name</a> <!-- Credit: www.templatemo.com -->|
+            Validate <a href="http://validator.w3.org/check?uri=referer">XHTML</a> &amp;
+            <a href="http://jigsaw.w3.org/css-validator/check/referer">CSS</a>
+
+        </div> <!-- end of templatemo_footer -->
+    </div> <!-- end of templatemo_footer_wrapper -->
+    <!-- templatemo 262 eco green -->
+    <!-- 
+Eco Green Template 
+http://www.templatemo.com/preview/templatemo_262_eco_green 
+-->
+
+    <script type="module" src="js/admin_auth.js"></script>
+</body>
+
+</html>

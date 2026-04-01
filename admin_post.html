@@ -1,0 +1,345 @@
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Eco Green | Blog Posting</title>
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <link href="templatemo_style.css" rel="stylesheet" type="text/css" />
+    <style>
+        #templatemo_content {
+            float: none;
+            width: 100%;
+        }
+
+        #templatemo_sidebar {
+            display: none;
+        }
+
+        #admin_post_form {
+            background: white;
+            padding: 20px;
+            border-radius: 4px;
+            margin-left: 0;
+            margin-right: 0;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        #admin_editor_toolbar {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 12px;
+            padding: 10px;
+            background: #f5f5f5;
+            border-radius: 3px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .toolbar-group {
+            display: flex;
+            gap: 4px;
+            align-items: center;
+            border-right: 1px solid #ddd;
+            padding-right: 8px;
+        }
+
+        .toolbar-group:last-child {
+            border-right: none;
+        }
+
+        .toolbar-btn {
+            padding: 6px 12px;
+            border: 1px solid #ccc;
+            background: white;
+            cursor: pointer;
+            border-radius: 3px;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .toolbar-btn:hover {
+            background: #e8e8e8;
+            border-color: #999;
+        }
+
+        .toolbar-btn.active {
+            background: #2d7d4d;
+            color: white;
+            border-color: #2d7d4d;
+        }
+
+        .toolbar-select {
+            padding: 6px 8px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            font-size: 13px;
+            background: white;
+            cursor: pointer;
+        }
+
+        #admin_post_editor {
+            background: white;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            padding: 12px;
+            min-height: 280px;
+            overflow: auto;
+            white-space: normal;
+            font-size: 14px;
+            line-height: 1.6;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        #admin_post_editor:focus {
+            outline: none;
+            border-color: #2d7d4d;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1), 0 0 4px rgba(45, 125, 77, 0.3);
+        }
+
+        #admin_post_editor img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        #admin_thumbnail_section {
+            margin-bottom: 20px;
+            padding: 12px;
+            background: #f9f9f9;
+            border: 1px solid #e0e0e0;
+            border-radius: 3px;
+        }
+
+        #admin_thumbnail_section label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        #admin_thumbnail_controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+
+        #admin_thumbnail_file {
+            flex: 1;
+        }
+
+        #admin_thumbnail_file::file-selector-button {
+            padding: 6px 12px;
+            background: #2d7d4d;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 13px;
+        }
+
+        #admin_thumbnail_file::file-selector-button:hover {
+            background: #1f5a36;
+        }
+
+        #admin_paste_thumb_btn {
+            padding: 6px 16px;
+            background: #2d7d4d;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 13px;
+        }
+
+        #admin_paste_thumb_btn:hover {
+            background: #1f5a36;
+        }
+
+        #admin_thumbnail_preview {
+            margin-top: 10px;
+        }
+
+        #admin_thumbnail_image {
+            max-width: 200px;
+            max-height: 200px;
+            border-radius: 3px;
+            border: 1px solid #ccc;
+        }
+
+        #admin_thumbnail_clear {
+            margin-top: 8px;
+            padding: 4px 12px;
+            background: #d9534f;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        #admin_thumbnail_clear:hover {
+            background: #c9302c;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="templatemo_header">
+
+        <div id="site_title">
+            <h1><a href="#">CLI <strong>ACTION</strong><span>Take an Action</span></a></h1>
+        </div>
+
+        <div id="templatemo_menu">
+
+            <ul>
+                <li><a href="index.html"><span></span>Home</a></li>
+                <li><a href="services.html"><span></span>Services</a></li>
+                <li><a href="portfolio.html"><span></span>Portfolio</a></li>
+                <li><a href="blog.html"><span></span>Blog</a></li>
+                <li><a href="contact.html"><span></span>Contact</a></li>
+                <li><a href="admin.html"><span></span>Admin</a></li>
+                <li id="admin_blogposting_menu" style="display: none;"><a href="admin_post.html"
+                        class="current"><span></span>Blog Posting</a></li>
+                <li id="admin_bloglist_menu" style="display: none;"><a href="admin_posts.html"><span></span>Blog
+                        Library</a></li>
+                <li id="admin_profile_menu" style="display: none;"><a href="admin_profile.html"><span></span>My
+                        Profile</a></li>
+            </ul>
+
+        </div> <!-- end of templatemo_menu -->
+
+    </div> <!-- end of templatemo_header -->
+
+    <div id="templatemo_main_wrapper">
+        <div id="templatemo_main">
+
+            <div id="templatemo_content">
+
+                <h2>Blog Posting</h2>
+                <p id="admin_auth_status">Checking access...</p>
+                <div class="cleaner_h20"></div>
+
+                <div id="admin_posting_section" style="display: none;">
+                    <h4>Create Blog Post</h4>
+                    <p>Paste images directly into the editor. They will be uploaded when you publish.</p>
+
+                    <form id="admin_post_form" action="#">
+                        <label for="admin_post_title">Title:</label>
+                        <input type="text" id="admin_post_title" class="required input_field" maxlength="120" />
+                        <div class="cleaner_h10"></div>
+
+                        <div id="admin_thumbnail_section">
+                            <label>Thumbnail Image (Optional):</label>
+                            <div id="admin_thumbnail_controls">
+                                <input type="file" id="admin_thumbnail_file" accept="image/*" />
+                                <button type="button" id="admin_paste_thumb_btn">Paste from Clipboard</button>
+                            </div>
+                            <div id="admin_thumbnail_preview"></div>
+                        </div>
+
+                        <label for="admin_post_editor">Content:</label>
+
+                        <div id="admin_editor_toolbar">
+                            <div class="toolbar-group">
+                                <button type="button" class="toolbar-btn" id="admin_bold_btn"
+                                    title="Bold (Ctrl+B)"><strong>B</strong></button>
+                                <button type="button" class="toolbar-btn" id="admin_italic_btn"
+                                    title="Italic (Ctrl+I)"><em>I</em></button>
+                                <button type="button" class="toolbar-btn" id="admin_underline_btn"
+                                    title="Underline (Ctrl+U)"><u>U</u></button>
+                            </div>
+                            <div class="toolbar-group">
+                                <select class="toolbar-select" id="admin_fontsize_select" title="Font Size">
+                                    <option value="">Font Size</option>
+                                    <option value="1">Small (10px)</option>
+                                    <option value="3">Normal (14px)</option>
+                                    <option value="4">Large (18px)</option>
+                                    <option value="5">Extra Large (24px)</option>
+                                    <option value="6">Huge (32px)</option>
+                                </select>
+                            </div>
+                            <div class="toolbar-group">
+                                <button type="button" class="toolbar-btn" id="admin_align_left_btn"
+                                    title="Align Left">☰L</button>
+                                <button type="button" class="toolbar-btn" id="admin_align_center_btn"
+                                    title="Align Center">☰C</button>
+                                <button type="button" class="toolbar-btn" id="admin_align_right_btn"
+                                    title="Align Right">☰R</button>
+                            </div>
+                            <div class="toolbar-group">
+                                <button type="button" class="toolbar-btn" id="admin_ltr_btn"
+                                    title="Left to Right">LTR</button>
+                                <button type="button" class="toolbar-btn" id="admin_rtl_btn"
+                                    title="Right to Left">RTL</button>
+                            </div>
+                            <div class="toolbar-group">
+                                <button type="button" class="toolbar-btn" id="admin_img_small_btn"
+                                    title="Resize selected image to 35%">Img S</button>
+                                <button type="button" class="toolbar-btn" id="admin_img_medium_btn"
+                                    title="Resize selected image to 60%">Img M</button>
+                                <button type="button" class="toolbar-btn" id="admin_img_large_btn"
+                                    title="Resize selected image to 100%">Img L</button>
+                                <button type="button" class="toolbar-btn" id="admin_img_smaller_btn"
+                                    title="Shrink selected image by 10%">Img -</button>
+                                <button type="button" class="toolbar-btn" id="admin_img_bigger_btn"
+                                    title="Enlarge selected image by 10%">Img +</button>
+                            </div>
+                            <div class="toolbar-group">
+                                <button type="button" class="toolbar-btn" id="admin_img_left_btn"
+                                    title="Place selected image on the left">Img Left</button>
+                                <button type="button" class="toolbar-btn" id="admin_img_center_btn"
+                                    title="Place selected image in the center">Img Center</button>
+                                <button type="button" class="toolbar-btn" id="admin_img_right_btn"
+                                    title="Place selected image on the right">Img Right</button>
+                            </div>
+                        </div>
+
+                        <div id="admin_post_editor" class="required input_field" contenteditable="true"></div>
+                        <div class="cleaner_h10"></div>
+
+                        <input type="submit" class="submit_btn" value="Publish Post" />
+                        <input type="button" class="submit_btn" id="admin_clear_post_btn" value="Clear" />
+                    </form>
+
+                    <p id="admin_post_status"></p>
+                    <div class="cleaner_h20"></div>
+                </div>
+
+            </div> <!-- end of templatemo_content -->
+
+            <div id="templatemo_sidebar">
+                <div class="sidebar_box">
+                    <h2>Access</h2>
+                    <ul class="templatemo_list">
+                        <li>You must sign in from the Admin page first</li>
+                        <li>Your account must be allowed to publish</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="cleaner"></div>
+        </div> <!-- end of templatemo_main -->
+    </div> <!-- end of templatemo_main_wrapper -->
+
+    <div id="templatemo_footer_wrapper">
+        <div id="templatemo_footer">
+
+            Copyright © 2048 <a href="#">Your Company Name</a> <!-- Credit: www.templatemo.com -->|
+            Validate <a href="http://validator.w3.org/check?uri=referer">XHTML</a> &amp;
+            <a href="http://jigsaw.w3.org/css-validator/check/referer">CSS</a>
+
+        </div> <!-- end of templatemo_footer -->
+    </div> <!-- end of templatemo_footer_wrapper -->
+    <!-- templatemo 262 eco green -->
+    <!-- 
+Eco Green Template 
+http://www.templatemo.com/preview/templatemo_262_eco_green 
+-->
+
+    <script type="module" src="js/admin_auth.js"></script>
+</body>
+
+</html>
