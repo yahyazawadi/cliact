@@ -185,11 +185,28 @@ export default {
     }
 
     if (path === "/upload" && request.method === "POST") {
-      const filename = request.headers.get("X-Filename");
-      const type = request.headers.get("Content-Type") || "image/png";
-      const bytes = await request.arrayBuffer();
+      const filename = request.headers.get("X-Filename") || `upload_${Date.now()}.png`;
+      let type = request.headers.get("Content-Type") || "image/png";
+      let bytes;
+
+      if (type.includes("application/json")) {
+        const body = await request.json();
+        if (body.image && body.image.includes("base64,")) {
+          const base64Data = body.image.split("base64,")[1];
+          type = body.image.split(";")[0].split(":")[1];
+          const binaryString = atob(base64Data);
+          bytes = new Uint8Array(binaryString.length);
+          for (let i = 0; i < binaryString.length; i++) bytes[i] = binaryString.charCodeAt(i);
+        } else {
+          return new Response("Invalid JSON image data", { status: 400, headers: corsHeaders });
+        }
+      } else {
+        bytes = await request.arrayBuffer();
+      }
+
       await bucket.put(filename, bytes, { httpMetadata: { contentType: type } });
-      return new Response(JSON.stringify({ success: true, url: `${request.url.split('/upload')[0]}/img/${filename}` }), { headers: corsHeaders });
+      const baseUrl = url.origin;
+      return new Response(JSON.stringify({ success: true, url: `${baseUrl}/img/${filename}` }), { headers: corsHeaders });
     }
 
     return new Response("Not Found", { status: 404, headers: corsHeaders });

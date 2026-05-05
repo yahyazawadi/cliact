@@ -582,7 +582,7 @@ async function uploadImageToR2(dataUrl, folder = "uploads") {
 
     console.log(`[R2] Uploading ${filename}...`);
     
-    const response = await fetch(workerUrl, {
+    const response = await fetch(`${workerUrl}/upload`, {
         method: 'POST',
         headers: {
             'Authorization': `Bearer ${authSecret}`,
