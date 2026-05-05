@@ -146,15 +146,16 @@ p {
         position: fixed;
         top: 0;
         right: -100%;
-        width: 80%;
+        width: 100%;
         height: 100vh;
         background: var(--surface);
+        display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        transition: 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
-        box-shadow: -10px 0 30px rgba(0,0,0,0.1);
-        z-index: 1050;
+        transition: 0.5s ease-in-out;
+        z-index: 2000;
+        gap: var(--space-xl);
     }
 
     .nav-links.active {
@@ -429,20 +430,6 @@ footer a {
 
 footer a:hover {
     color: white;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-    .hero .container {
-        grid-template-columns: 1fr;
-        text-align: center;
-    }
-    
-    h1 { font-size: 2.5rem; }
-    
-    .nav-links {
-        display: none; /* Hide for simplicity in first pass, would add mobile menu later */
-    }
 }
 
 /* Snackbar Notification */
