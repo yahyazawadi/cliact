@@ -18,8 +18,9 @@ export default {
 
     if (request.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
 
-    const bucket = env["climate-action"] || env.MY_BUCKET || env.BUCKET;
-    if (!bucket) return new Response("Bucket Error", { status: 500, headers: corsHeaders });
+    // Support both 'BUCKET' and 'climate-action' as binding names
+    const bucket = env.BUCKET || env['climate-action'];
+    if (!bucket) return new Response("Error: R2 Bucket binding not found.", { status: 500, headers: corsHeaders });
 
     // --- HELPER: GET/SAVE/REPAIR DATABASE ---
     const getDB = async () => {
@@ -162,8 +163,20 @@ export default {
     if (!isAuthorized) return new Response("Unauthorized", { status: 401, headers: corsHeaders });
 
     if (path === "/data" && request.method === "POST") {
-      await bucket.put("data.json", await request.text(), { httpMetadata: { contentType: "application/json" } });
-      return new Response(JSON.stringify({ success: true }), { headers: corsHeaders });
+      const bodyText = await request.text();
+      try {
+        const body = JSON.parse(bodyText);
+        if (body.ping) {
+          return new Response(JSON.stringify({ success: true, authorized: true }), { headers: corsHeaders });
+        }
+        // If not a ping, it's a full DB save
+        await bucket.put("data.json", bodyText, { httpMetadata: { contentType: "application/json" } });
+        return new Response(JSON.stringify({ success: true }), { headers: corsHeaders });
+      } catch (e) {
+        // Fallback if not JSON or other error
+        await bucket.put("data.json", bodyText, { httpMetadata: { contentType: "application/json" } });
+        return new Response(JSON.stringify({ success: true }), { headers: corsHeaders });
+      }
     }
 
     return new Response("Not Found", { status: 404, headers: corsHeaders });

@@ -270,6 +270,16 @@
             }
         };
 
+        // Pre-fill date input with a default time (9:00 AM today)
+        const dateInput = document.getElementById('event_date');
+        if (dateInput) {
+            const now = new Date();
+            now.setHours(9, 0, 0, 0);
+            const offset = now.getTimezoneOffset() * 60000;
+            const localISODate = new Date(now - offset).toISOString().slice(0, 16);
+            dateInput.value = localISODate;
+        }
+
         loadAdminEvents();
     </script>
 </body>
