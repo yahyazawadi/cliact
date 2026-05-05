@@ -300,6 +300,7 @@ p {
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 3;
+    line-clamp: 3;
     overflow: hidden;
 }
 
@@ -341,9 +342,7 @@ p {
     background: var(--primary-light);
     color: var(--primary-dark);
 }
-    text-transform: uppercase;
-    letter-spacing: 1px;
-}
+/* Removed dangling properties */
 
 /* Footer */
 footer {
