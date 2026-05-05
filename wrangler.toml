@@ -1,4 +1,4 @@
-name = "climate-action-worker"
+name = "cliact"
 main = "r2_worker.js"
 compatibility_date = "2024-04-01"
 
