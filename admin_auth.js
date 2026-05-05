@@ -636,7 +636,7 @@ async function saveDatabase(data) {
 
 window.fetchWorkerData = async function() {
     const workerUrl = env.WORKER_URL;
-    const response = await fetch(`${workerUrl}/data`);
+    const response = await fetch(`${workerUrl}/data?t=${Date.now()}`);
     return response.ok ? await response.json() : { posts: [], events: [], recordings: [] };
 };
 

@@ -50,7 +50,15 @@ export default {
     };
 
     if (request.method === "GET" && path === "/data") {
-      return new Response(JSON.stringify(await getDB()), { headers: { ...corsHeaders, "Content-Type": "application/json" } });
+      return new Response(JSON.stringify(await getDB()), { 
+        headers: { 
+          ...corsHeaders, 
+          "Content-Type": "application/json",
+          "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate",
+          "Pragma": "no-cache",
+          "Expires": "0"
+        } 
+      });
     }
 
     if (request.method === "GET" && path.startsWith("/img/")) {
