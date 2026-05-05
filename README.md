@@ -50,3 +50,6 @@ To change your backend, simply edit `js/env_config.js`.
 
 ## 📄 License
 This project is for educational and community action purposes.
+
+
+if this doesnt work i will kms
