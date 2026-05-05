@@ -1,11 +1,5 @@
+import CONFIG from './env_config.js';
 
-/**
- * public_recordings.js
- * Loads global session recordings from the Cloudflare R2 JSON database.
- */
-import { loadRuntimeEnv } from "./runtime_env.js";
-
-const env = await loadRuntimeEnv("../.env");
 function $(id) { return document.getElementById(id); }
 
 async function loadPublicRecordings() {
@@ -13,7 +7,7 @@ async function loadPublicRecordings() {
     if (!feed) return;
 
     try {
-        const workerUrl = (env.WORKER_URL || "https://climate-action.super-yahyaaa.workers.dev/").replace(/\/$/, "");
+        const workerUrl = CONFIG.WORKER_URL;
         const response = await fetch(`${workerUrl}/data`);
         const data = await response.ok ? await response.json() : { recordings: [] };
         

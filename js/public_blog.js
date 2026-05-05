@@ -1,11 +1,9 @@
+import CONFIG from './env_config.js';
 
 /**
  * public_blog.js
  * Loads live climate stories from the Cloudflare R2 JSON database.
  */
-import { loadRuntimeEnv } from "./runtime_env.js";
-
-// const env = await loadRuntimeEnv("../.env"); // Bypassing for reliability
 function $(id) { return document.getElementById(id); }
 
 let allPosts = [];
@@ -21,9 +19,7 @@ async function loadPublicPosts() {
     if (status) status.textContent = "Fetching latest climate stories...";
 
     try {
-import CONFIG from './env_config.js';
-const workerUrl = CONFIG.WORKER_URL;
-        console.log("[BLOG] Fetching from:", workerUrl);
+        const workerUrl = CONFIG.WORKER_URL;
         
         const response = await fetch(`${workerUrl}/data`);
         if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
