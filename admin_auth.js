@@ -85,41 +85,33 @@ async function wireUi() {
     if (loginForm) {
         loginForm.addEventListener("submit", async (e) => {
             e.preventDefault();
-            const email = ($("admin_email")?.value || "").trim();
             const password = $("admin_password")?.value || "";
 
-            setStatus("Verifying...", "loading");
+            setStatus("Verifying with Cloudflare...", "loading");
 
-            // Use the password as the secret key for the worker
-            localStorage.setItem("admin_auth_key", password);
-            
-            // Local check for UI redirect (using fallback if env not loaded)
-            const staticEmail = "admin@climateaction.site";
-            const staticPass = "climate_admin_2026";
+            // Try to fetch data to verify the secret directly with the Worker
+            try {
+                const test = await fetch(`${env.WORKER_URL}/data`, {
+                    method: 'POST',
+                    headers: { 
+                        'Authorization': `Bearer ${password}`,
+                        'Content-Type': 'application/json' 
+                    },
+                    body: JSON.stringify({ ping: true })
+                });
 
-            if (email === staticEmail && password === staticPass) {
-                localStorage.setItem("static_admin_session", "true");
-                setStatus("Welcome! Redirecting...", "success");
-                setTimeout(() => window.location.reload(), 1000);
-            } else {
-                // Try to fetch data to verify the secret
-                try {
-                    const test = await fetch(`${env.WORKER_URL}/data`, {
-                        method: 'POST',
-                        headers: { 'Authorization': `Bearer ${password}`, 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ ping: true }) // Dummy check
-                    });
-                    if (test.ok) {
-                        localStorage.setItem("static_admin_session", "true");
-                        setStatus("Access Granted!", "success");
-                        setTimeout(() => window.location.reload(), 1000);
-                    } else {
-                        throw new Error();
-                    }
-                } catch(err) {
-                    setStatus("Invalid credentials or Secret.", "error");
-                    localStorage.removeItem("admin_auth_key");
+                if (test.ok) {
+                    localStorage.setItem("admin_auth_key", password);
+                    localStorage.setItem("static_admin_session", "true");
+                    setStatus("Access Granted!", "success");
+                    setTimeout(() => window.location.reload(), 1000);
+                } else {
+                    throw new Error("Unauthorized");
                 }
+            } catch(err) {
+                setStatus("Invalid Secret. Check your Cloudflare Worker vars.", "error");
+                localStorage.removeItem("admin_auth_key");
+                localStorage.removeItem("static_admin_session");
             }
         });
     }
