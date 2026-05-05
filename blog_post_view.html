@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Post | Climate Action</title>
+    <link rel="stylesheet" href="index.css">
+    <style>
+        .blog-content img {
+            max-width: 100%;
+            height: auto;
+            border-radius: var(--radius-md);
+            margin: var(--space-md) 0;
+        }
+
+        .engagement-bar {
+            display: flex;
+            gap: var(--space-lg);
+            padding: var(--space-md) 0;
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            margin: var(--space-xl) 0;
+            align-items: center;
+        }
+
+        .engagement-item {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        .like-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--text-light);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-family: inherit;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+        }
+
+        .like-btn:hover {
+            color: var(--error);
+        }
+
+        .like-btn.liked {
+            color: var(--error);
+        }
+    </style>
+</head>
+
+<body>
+
+    <header id="header">
+        <div class="container">
+            <a href="index.html" class="logo">CLIMATE <span>ACTION</span></a>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="events.html">Events</a></li>
+                    <li><a href="recordings.html">Recordings</a></li>
+                    <li><a href="blog.html" class="current">Blog</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main style="padding: var(--space-xl) 0;">
+        <article class="container" style="max-width: 800px;">
+            <p id="blog_status">Loading post...</p>
+
+            <div id="blog_post_view_box" style="display: none;">
+                <img id="blog_post_view_thumb" src="" alt=""
+                    style="width: 100%; border-radius: var(--radius-lg); margin-bottom: var(--space-xl); box-shadow: var(--shadow-md);">
+
+                <h1 id="blog_post_view_title" style="margin-bottom: var(--space-sm);"></h1>
+
+                <div id="blog_post_view_author_box"
+                    style="display: flex; align-items: center; gap: var(--space-md); margin-bottom: var(--space-lg);">
+                    <img id="blog_post_view_author_pfp" src="" alt=""
+                        style="width: 48px; height: 48px; border-radius: 50%; object-fit: cover;">
+                    <div>
+                        <h4 id="blog_post_view_author_name"
+                            style="margin: 0; font-family: 'Inter', sans-serif; font-size: 1rem;"></h4>
+                        <p id="blog_post_view_author_short_description"
+                            style="margin: 0; font-size: 0.85rem; color: var(--text-light);"></p>
+                    </div>
+                    <div style="margin-left: auto; font-size: 0.85rem; color: var(--text-light);"
+                        id="blog_post_view_meta"></div>
+                </div>
+
+                <div id="blog_post_view_content" class="blog-content"></div>
+
+                <div class="engagement-bar">
+                    <div class="engagement-item">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                            <circle cx="12" cy="12" r="3"></circle>
+                        </svg>
+                        <span id="view_count">0</span> views
+                    </div>
+                    <button id="like_btn" class="like-btn">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path
+                                d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z">
+                            </path>
+                        </svg>
+                        <span id="like_count">0</span> likes
+                    </button>
+                    <button id="blog_post_view_copy_link" class="like-btn" title="Share Post">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="18" cy="5" r="3"></circle>
+                            <circle cx="6" cy="12" r="3"></circle>
+                            <circle cx="18" cy="19" r="3"></circle>
+                            <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+                            <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+                        </svg>
+                        Share
+                    </button>
+                </div>
+
+                <div id="admin_actions" style="display: none; gap: var(--space-md); margin-top: var(--space-lg);">
+                    <button id="blog_post_view_edit" class="btn btn-primary">Edit Post</button>
+                    <button id="blog_post_view_delete" class="btn"
+                        style="background: var(--error); color: white;">Delete Post</button>
+                </div>
+
+                <!-- Wildlife Conversations (Comments) -->
+                <div style="margin-top: var(--space-2xl); border-top: 1px solid var(--border); padding-top: var(--space-xl);">
+                    <h2 class="playfair" style="font-size: 2rem; margin-bottom: var(--space-lg);">Wildlife Conversations</h2>
+                    <div id="post_comments_container" style="display: flex; flex-direction: column; gap: 20px; margin-bottom: 30px;">
+                        <p style="color: var(--text-light);">Loading conversations...</p>
+                    </div>
+
+                    <div style="background: #f8fafc; border-radius: 20px; padding: 25px; border: 1px solid var(--border);">
+                        <p style="font-size: 0.85rem; color: var(--text-light); margin-bottom: 15px;" id="comment_identity_label"></p>
+                        <div style="display: flex; gap: 10px;">
+                            <textarea id="post_comment_input" placeholder="Join the conversation..." style="flex: 1; padding: 15px; border-radius: 12px; border: 1.5px solid var(--border); font-size: 1rem; resize: none; height: 80px;"></textarea>
+                            <button id="post_comment_submit" style="background: var(--primary); color: white; border: none; padding: 0 30px; border-radius: 12px; font-weight: 700; cursor: pointer; transition: transform 0.2s;">Post</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </article>
+    </main>
+
+    <footer>
+        <!-- Footer content... -->
+    </footer>
+
+    <script type="module" src="js/public_blog.js"></script>
+</body>
+
+</html>

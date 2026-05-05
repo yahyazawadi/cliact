@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Messages - Climate Action Admin</title>
+    <link rel="stylesheet" href="index.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <style>
+        .admin-page {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+        }
+        .messages-list {
+            display: grid;
+            gap: 20px;
+        }
+        .message-item {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            position: relative;
+        }
+        .message-meta {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+            color: #666;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+        .message-body {
+            line-height: 1.6;
+            color: var(--text);
+            white-space: pre-wrap;
+        }
+        .delete-btn {
+            background: #ff4757;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+    </style>
+</head>
+<body class="admin-body">
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">CLIMATE<span>ACTION</span></a>
+            <div class="nav-links">
+                <a href="admin.html">Dashboard</a>
+                <a href="admin_posts.html">Posts</a>
+                <a href="admin_events.html">Events</a>
+                <a href="admin_recordings.html">Recordings</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="admin-page">
+        <div class="admin-header">
+            <div>
+                <h1 class="playfair">User Messages</h1>
+                <p>Inquiries sent via the contact form.</p>
+            </div>
+            <a href="admin.html" class="btn btn-outline">Back to Dashboard</a>
+        </div>
+
+        <section id="messages-list" class="messages-list">
+            <p>Loading messages...</p>
+        </section>
+    </main>
+
+    <script src="js/runtime_env.js"></script>
+    <script type="module">
+        import { db, auth, isAdminUser } from './admin_auth.js';
+        import { collection, getDocs, deleteDoc, doc, query, orderBy } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+        import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
+
+        const list = document.getElementById('messages-list');
+
+        async function loadMessages() {
+            try {
+                const q = query(collection(db, "contacts"), orderBy("createdAt", "desc"));
+                const snap = await getDocs(q);
+                list.innerHTML = '';
+                
+                if (snap.empty) {
+                    list.innerHTML = '<p>No messages yet.</p>';
+                    return;
+                }
+
+                snap.forEach(mDoc => {
+                    const data = mDoc.data();
+                    const date = data.createdAt?.toDate ? data.createdAt.toDate().toLocaleString() : 'Unknown date';
+                    
+                    const item = document.createElement('div');
+                    item.className = 'message-item';
+                    item.innerHTML = `
+                        <div class="message-meta">
+                            <span><strong>From:</strong> ${data.name} (${data.email})</span>
+                            <span>${date}</span>
+                        </div>
+                        <div style="margin-bottom: 10px;"><strong>Subject:</strong> ${data.subject || 'No Subject'}</div>
+                        <div class="message-body">${data.message}</div>
+                        <div style="margin-top: 15px; text-align: right;">
+                            <button class="delete-btn" data-id="${mDoc.id}">Delete</button>
+                        </div>
+                    `;
+                    list.appendChild(item);
+                });
+
+                document.querySelectorAll('.delete-btn').forEach(btn => {
+                    btn.onclick = async (e) => {
+                        if (!confirm('Delete this message?')) return;
+                        const id = e.target.dataset.id;
+                        await deleteDoc(doc(db, "contacts", id));
+                        loadMessages();
+                    };
+                });
+            } catch (err) {
+                console.error(err);
+                list.innerHTML = '<p>Error loading messages.</p>';
+            }
+        }
+
+        onAuthStateChanged(auth, async (user) => {
+            if (!user || !(await isAdminUser(user))) {
+                window.location.href = 'admin.html';
+                return;
+            }
+            loadMessages();
+        });
+    </script>
+</body>
+</html>

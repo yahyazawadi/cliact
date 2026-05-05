@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog | Climate Action</title>
+    <link rel="stylesheet" href="index.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap"
+        rel="stylesheet">
+    <style>
+        .blog-header-section {
+            padding: var(--space-2xl) 0 var(--space-xl);
+            text-align: center;
+        }
+
+        .search-container {
+            max-width: 600px;
+            margin: var(--space-lg) auto;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 16px 24px;
+            border-radius: 50px;
+            border: 2px solid var(--border);
+            font-size: 1.1rem;
+            transition: border-color 0.3s;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: var(--space-xl);
+            margin-top: var(--space-xl);
+        }
+
+        @media (max-width: 480px) {
+            .blog-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        #blog_status {
+            text-align: center;
+            color: var(--text-light);
+            margin: var(--space-md) 0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header id="header">
+        <div class="container">
+            <a href="index.html" class="logo">CLIMATE <span>ACTION</span></a>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="events.html">Events</a></li>
+                    <li><a href="recordings.html">Recordings</a></li>
+                    <li><a href="blog.html" class="active">Blog</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="blog-header-section">
+            <div class="container">
+                <h1 class="playfair" style="font-size: 3.5rem;">Climate Stories</h1>
+                <p style="color: var(--text-light); font-size: 1.2rem;">Perspectives and updates from our global
+                    community.</p>
+
+                <div class="search-container">
+                    <input type="text" id="blog_search_input" class="search-input" placeholder="Search articles...">
+                </div>
+                <p id="blog_status">Loading latest posts...</p>
+            </div>
+        </section>
+
+        <section style="padding-bottom: var(--space-2xl);">
+            <div class="container">
+                <div id="blog_posts_feed" class="blog-grid">
+                    <!-- Posts will be rendered here by public_blog.js -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="#" class="logo">CLIMATE <span>ACTION</span></a>
+                    <p>Empowering the next generation of climate leaders through exchange and action.</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Climate Action Platform. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script type="module" src="js/public_blog.js"></script>
+</body>
+
+</html>

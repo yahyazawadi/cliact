@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us | Climate Action</title>
+    <link rel="stylesheet" href="index.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap"
+        rel="stylesheet">
+    <style>
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: var(--space-xl);
+            margin-top: var(--space-xl);
+        }
+
+        @media (max-width: 768px) {
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .contact-info {
+            background: var(--primary-light);
+            padding: var(--space-xl);
+            border-radius: 16px;
+            color: var(--primary-dark);
+        }
+
+        .contact-info h2 {
+            margin-bottom: var(--space-md);
+        }
+
+        .info-item {
+            margin-bottom: var(--space-lg);
+        }
+
+        .info-item h4 {
+            margin-bottom: 4px;
+            font-family: var(--font-main);
+        }
+
+        .contact-form-container {
+            background: white;
+            padding: var(--space-xl);
+            border-radius: 16px;
+            box-shadow: var(--shadow-md);
+        }
+
+        .form-group {
+            margin-bottom: var(--space-md);
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        #contact-status {
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: var(--space-md);
+            display: none;
+        }
+
+        #contact-status.success {
+            background: #e3f9e5;
+            color: #1f7a2a;
+            display: block;
+        }
+
+        #contact-status.error {
+            background: #ffebeb;
+            color: #c0392b;
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header id="header">
+        <div class="container">
+            <a href="index.html" class="logo">CLIMATE <span>ACTION</span></a>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="events.html">Events</a></li>
+                    <li><a href="recordings.html">Recordings</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="contact.html" class="active">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main style="padding: var(--space-xl) 0;">
+        <div class="container">
+            <h1 class="playfair" style="text-align: center; font-size: 3rem;">Get in Touch</h1>
+            <p style="text-align: center; color: var(--text-light); max-width: 600px; margin: 0 auto;">Have questions
+                about our climate exchange program? We're here to help and listen.</p>
+
+            <div class="contact-grid">
+                <div class="contact-info">
+                    <h2 class="playfair">Contact Information</h2>
+                    <div class="info-item">
+                        <h4>Location</h4>
+                        <p>Climate Action HQ<br>123 Eco Way, Green City</p>
+                    </div>
+                    <div class="info-item">
+                        <h4>Email</h4>
+                        <p>hello@climateaction.site</p>
+                    </div>
+                    <div class="info-item">
+                        <h4>Social</h4>
+                        <p>Follow our journey on Twitter and Instagram.</p>
+                    </div>
+                </div>
+
+                <div class="contact-form-container">
+                    <div id="contact-status"></div>
+                    <form id="contact-form">
+                        <div class="form-group">
+                            <label for="name">Your Name</label>
+                            <input type="text" id="name" class="input-field" required placeholder="John Doe">
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" id="email" class="input-field" required placeholder="john@example.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="subject">Subject</label>
+                            <input type="text" id="subject" class="input-field" placeholder="How can we help?">
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Message</label>
+                            <textarea id="message" class="input-field" rows="5" required
+                                placeholder="Tell us more..."></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="width: 100%;">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="#" class="logo">CLIMATE <span>ACTION</span></a>
+                    <p>Empowering the next generation of climate leaders through exchange and action.</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Climate Action Platform. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/runtime_env.js"></script>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+        import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+
+        const firebaseConfig = window.FIREBASE_CONFIG;
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        const form = document.getElementById('contact-form');
+        const status = document.getElementById('contact-status');
+
+        form.onsubmit = async (e) => {
+            e.preventDefault();
+            const btn = form.querySelector('button');
+            btn.disabled = true;
+            btn.textContent = 'Sending...';
+
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const subject = document.getElementById('subject').value;
+            const message = document.getElementById('message').value;
+
+            try {
+                await addDoc(collection(db, "contacts"), {
+                    name,
+                    email,
+                    subject,
+                    message,
+                    createdAt: serverTimestamp()
+                });
+                status.textContent = "Thank you! Your message has been sent.";
+                status.className = "success";
+                form.reset();
+            } catch (err) {
+                console.error(err);
+                status.textContent = "Oops! Something went wrong. Please try again later.";
+                status.className = "error";
+            } finally {
+                btn.disabled = false;
+                btn.textContent = 'Send Message';
+            }
+        };
+    </script>
+</body>
+
+</html>

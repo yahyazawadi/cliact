@@ -1,0 +1,10 @@
+name = "climate-action-worker"
+main = "r2_worker.js"
+compatibility_date = "2024-04-01"
+
+[[r2_buckets]]
+binding = "BUCKET"
+bucket_name = "climate-action"
+
+[vars]
+AUTH_SECRET = "climate_action_secret_2026"

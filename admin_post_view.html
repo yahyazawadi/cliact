@@ -1,0 +1,368 @@
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Eco Green | Admin Post View</title>
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="templatemo_style.css" rel="stylesheet" type="text/css" />
+    <style>
+        #templatemo_content {
+            float: none;
+            width: 100%;
+        }
+
+        #templatemo_sidebar {
+            display: none;
+        }
+
+        #admin_post_view_box {
+            background: #fff;
+            border: none;
+            border-radius: 0;
+            padding: 22px;
+            box-shadow: none;
+        }
+
+        #admin_post_view_title {
+            margin: 0 0 10px 0;
+            font-size: 34px;
+            line-height: 1.15;
+            color: #202124;
+            letter-spacing: 0.2px;
+        }
+
+        #admin_post_view_meta {
+            margin: 0 0 14px 0;
+            color: #5f6368;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        #admin_post_view_thumb {
+            width: 100%;
+            margin: 0 0 24px 0;
+            height: clamp(220px, 44vw, 560px);
+            object-fit: cover;
+            object-position: center;
+            border-radius: 8px;
+            display: none;
+            border: 1px solid #dcdcdc;
+            background: #efefef;
+        }
+
+        #admin_post_view_content {
+            font-size: 17px;
+            line-height: 1.8;
+            color: #1f1f1f;
+            overflow: hidden;
+            overflow-wrap: anywhere;
+            display: flow-root;
+        }
+
+        #admin_post_view_content * {
+            max-width: 100%;
+            box-sizing: border-box;
+        }
+
+        #admin_post_view_content p,
+        #admin_post_view_content ul,
+        #admin_post_view_content ol,
+        #admin_post_view_content h1,
+        #admin_post_view_content h2,
+        #admin_post_view_content h3,
+        #admin_post_view_content h4,
+        #admin_post_view_content h5,
+        #admin_post_view_content h6,
+        #admin_post_view_content blockquote {
+            max-width: 100%;
+            word-break: break-word;
+        }
+
+        #admin_post_view_content img {
+            max-width: 100% !important;
+            height: auto;
+            display: block;
+            margin: 14px auto;
+            border-radius: 8px;
+        }
+
+        #admin_post_view_author_box {
+            margin: 0 0 18px 0;
+            padding: 0;
+            border: none;
+            border-radius: 0;
+            background: transparent;
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        #admin_post_view_author_pfp {
+            width: 52px;
+            height: 52px;
+            border-radius: 999px;
+            object-fit: cover;
+            border: 1px solid #d2d5d9;
+            background: #eceff1;
+            display: none;
+        }
+
+        #admin_post_view_author_name {
+            margin: 0;
+            font-size: 14px;
+            line-height: 1.2;
+            color: #17181a;
+            font-weight: bold;
+        }
+
+        #admin_post_view_author_short_description {
+            margin: 2px 0 0 0;
+            font-weight: normal;
+            color: #5f6368;
+            font-size: 12px;
+        }
+
+        .admin-author-link {
+            color: #24633d;
+            text-decoration: underline;
+            font-weight: bold;
+        }
+
+        .admin-author-link:hover {
+            color: #174329;
+        }
+
+        #admin_post_view_actions {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .admin-card-btn {
+            background: transparent;
+            color: #2d7d4d;
+            border: none;
+            padding: 4px;
+            margin: 0;
+            cursor: pointer;
+            font-size: 24px;
+            line-height: 1;
+            transition: color 0.1s ease;
+        }
+
+        .admin-card-btn:hover {
+            color: #1a4a2d;
+            background: transparent;
+        }
+
+        .admin-card-btn-danger {
+            color: #c9302c;
+        }
+
+        .admin-card-btn-danger:hover {
+            color: #8f201d;
+            background: transparent;
+        }
+
+        .submit_btn {
+            background: #2d7d4d;
+            color: #fff;
+            border: 1px solid #215e3a;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .submit_btn:hover {
+            background: #24633d;
+        }
+
+        #admin_post_view_delete {
+            background: #c9302c;
+            color: #fff;
+            border-color: #9c201c;
+        }
+
+        @media (max-width: 767px) {
+            #templatemo_header {
+                width: auto;
+                height: auto;
+                padding: 10px;
+                box-sizing: border-box;
+            }
+
+            #templatemo_header #site_title {
+                float: none;
+                width: auto;
+                padding-top: 0;
+                margin-bottom: 10px;
+            }
+
+            #templatemo_menu {
+                float: none;
+                width: auto;
+            }
+
+            #templatemo_menu ul {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 6px;
+            }
+
+            #templatemo_menu ul li a {
+                float: none;
+                width: auto;
+                min-width: 120px;
+                height: auto;
+                margin: 0;
+                padding: 10px 12px;
+                background: #dce9bf;
+                border-radius: 4px;
+            }
+
+            #templatemo_menu ul li a:hover,
+            #templatemo_menu ul li .current {
+                padding-top: 10px;
+                height: auto;
+            }
+
+            #templatemo_menu ul li a span,
+            #templatemo_menu ul li .current span {
+                display: none;
+            }
+
+            #templatemo_main {
+                width: auto;
+                padding: 28px 10px;
+            }
+
+            #templatemo_footer {
+                width: auto;
+                padding-left: 10px;
+                padding-right: 10px;
+                box-sizing: border-box;
+            }
+
+            #admin_post_view_title {
+                font-size: 25px;
+            }
+
+            #admin_post_view_box {
+                padding: 16px;
+                border-radius: 8px;
+            }
+
+            #admin_post_view_thumb {
+                width: 100%;
+                margin-left: 0;
+                margin-bottom: 18px;
+                height: clamp(190px, 42vw, 360px);
+            }
+
+            #admin_post_view_author_name {
+                font-size: 14px;
+            }
+
+            #admin_post_view_author_short_description {
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="templatemo_header">
+
+        <div id="site_title">
+            <h1><a href="#">CLIMATE <strong>ACTION</strong><span>Take an Action</span></a></h1>
+        </div>
+
+        <div id="templatemo_menu">
+
+            <ul>
+                <li><a href="index.html"><span></span>Home</a></li>
+                <li><a href="services.html"><span></span>Services</a></li>
+                <li><a href="portfolio.html"><span></span>Portfolio</a></li>
+                <li><a href="blog.html"><span></span>Blog</a></li>
+                <li><a href="contact.html"><span></span>Contact</a></li>
+                <li><a href="admin.html"><span></span>Admin</a></li>
+                <li id="admin_blogposting_menu" style="display: none;"><a href="admin_post.html"><span></span>Blog
+                        Posting</a></li>
+                <li id="admin_bloglist_menu" style="display: none;"><a href="admin_posts.html"
+                        class="current"><span></span>Blog Library</a></li>
+                <li id="admin_profile_menu" style="display: none;"><a href="admin_profile.html"><span></span>My
+                        Profile</a></li>
+            </ul>
+
+        </div> <!-- end of templatemo_menu -->
+
+    </div> <!-- end of templatemo_header -->
+
+    <div id="templatemo_main_wrapper">
+        <div id="templatemo_main">
+
+            <div id="templatemo_content">
+                <h2>Post Viewer</h2>
+                <p id="admin_auth_status">Checking access...</p>
+                <p id="admin_posts_status"></p>
+                <div class="cleaner_h20"></div>
+
+                <div id="admin_post_view_box" style="display: none;">
+                    <img id="admin_post_view_thumb" alt="Post thumbnail" />
+
+                    <div
+                        style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; gap: 15px;">
+                        <h3 id="admin_post_view_title" style="margin: 0;"></h3>
+                        <div id="admin_post_view_actions">
+                            <button type="button" class="admin-card-btn" id="admin_post_view_copy_link"
+                                title="Copy Link"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <circle cx="18" cy="5" r="3"></circle>
+                                    <circle cx="6" cy="12" r="3"></circle>
+                                    <circle cx="18" cy="19" r="3"></circle>
+                                    <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+                                    <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+                                </svg></button>
+                            <input type="button" class="admin-card-btn" id="admin_post_view_edit" value="&#9998;"
+                                title="Edit Post" />
+                            <input type="button" class="admin-card-btn admin-card-btn-danger"
+                                id="admin_post_view_delete" value="&#128465;" title="Delete Post" />
+                        </div>
+                    </div>
+                    <p id="admin_post_view_meta"></p>
+                    <div id="admin_post_view_author_box" style="display: none;">
+                        <img id="admin_post_view_author_pfp" alt="Author profile image" />
+                        <div>
+                            <h4 id="admin_post_view_author_name"></h4>
+                            <p id="admin_post_view_author_short_description"></p>
+                        </div>
+                    </div>
+                    <div id="admin_post_view_content"></div>
+                </div>
+            </div> <!-- end of templatemo_content -->
+
+            <div id="templatemo_sidebar"></div>
+            <div class="cleaner"></div>
+        </div> <!-- end of templatemo_main -->
+    </div> <!-- end of templatemo_main_wrapper -->
+
+    <div id="templatemo_footer_wrapper">
+        <div id="templatemo_footer">
+
+            Copyright © 2048 <a href="#">Your Company Name</a> <!-- Credit: www.templatemo.com -->|
+            Validate <a href="http://validator.w3.org/check?uri=referer">XHTML</a> &amp;
+            <a href="http://jigsaw.w3.org/css-validator/check/referer">CSS</a>
+
+        </div> <!-- end of templatemo_footer -->
+    </div> <!-- end of templatemo_footer_wrapper -->
+
+    <script type="module" src="js/admin_auth.js"></script>
+</body>
+
+</html>

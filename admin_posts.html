@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Library | Admin Dashboard</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="stylesheet" href="index.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --admin-bg: #f8fafc;
+        }
+        body {
+            background-color: var(--admin-bg);
+        }
+        .search-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--space-xl);
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+        .admin-search-input {
+            flex: 1;
+            min-width: 300px;
+            padding: 12px 20px;
+            border-radius: 50px;
+            border: 1.5px solid var(--border);
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+        .admin-search-input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+        
+        .admin-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        
+        .admin-post-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            display: flex;
+            align-items: stretch; /* Make image and text same height */
+            transition: transform 0.3s ease;
+            min-height: 220px;
+        }
+        .admin-post-card:hover {
+            transform: scale(1.01);
+        }
+        
+        .card-thumb {
+            width: 40%; /* Image takes 40% of the width */
+            min-width: 300px;
+            object-fit: cover;
+            background: #e2e8f0;
+            flex-shrink: 0;
+            border-right: 1px solid #f1f5f9;
+        }
+        
+        .card-content {
+            padding: 20px;
+            flex: 1;
+        }
+        
+        .card-title {
+            font-size: 1.25rem;
+            margin-bottom: 8px;
+            color: var(--text);
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .card-meta {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            margin-bottom: 16px;
+        }
+        
+        .card-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .btn-small {
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: opacity 0.2s;
+        }
+        .btn-edit {
+            background: var(--primary);
+            color: white;
+        }
+        .btn-delete {
+            background: #fee2e2;
+            color: #ef4444;
+        }
+        .btn-delete:hover {
+            background: #fecaca;
+        }
+
+        #admin_auth_status {
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: var(--space-md);
+        }
+    </style>
+</head>
+<body>
+
+    <header id="header">
+        <div class="container">
+            <a href="index.html" class="logo">CLIMATE <span>ACTION</span></a>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="admin.html">Dashboard</a></li>
+                    <li><a href="admin_posts.html" class="active">Library</a></li>
+                    <li><a href="admin_events.html">Events</a></li>
+                    <li><a href="admin_recordings.html">Recordings</a></li>
+                    <li><a href="admin_post.html">New Story</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container" style="padding: var(--space-2xl) 0;">
+        <h1 class="playfair" style="font-size: 3rem; margin-bottom: 8px;">Blog Library</h1>
+        <p id="admin_auth_status">Checking access...</p>
+
+        <div class="search-section">
+            <input type="text" id="admin_posts_search_input" class="admin-search-input" placeholder="Search your stories...">
+            <a href="admin_post.html" class="btn-small btn-edit" style="text-decoration: none; padding: 12px 24px;">+ New Story</a>
+        </div>
+
+        <p id="admin_posts_status" style="margin-bottom: 20px; color: var(--text-light);"></p>
+
+        <div id="admin_posts_feed" class="admin-grid">
+            <!-- Posts will be rendered here by admin_auth.js -->
+        </div>
+    </main>
+
+    <footer>
+        <div class="container" style="text-align: center; padding: var(--space-xl) 0; border-top: 1px solid var(--border);">
+            <p style="color: var(--text-light);">&copy; 2026 Climate Action Admin. Database: Cloudflare R2.</p>
+        </div>
+    </footer>
+
+    <script type="module" src="admin_auth.js"></script>
+</body>
+</html>

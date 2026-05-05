@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upcoming Events | Climate Action</title>
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+
+    <header id="header">
+        <div class="container">
+            <a href="index.html" class="logo">CLIMATE <span>ACTION</span></a>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="events.html" class="current">Events</a></li>
+                    <li><a href="recordings.html">Recordings</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main style="padding: var(--space-xl) 0;">
+        <div class="container">
+            <div style="margin-bottom: var(--space-xl);">
+                <h1>Upcoming Events</h1>
+                <p style="color: var(--text-light); font-size: 1.1rem;">Join our virtual meetups and workshops. All sessions are conducted via Google Meet.</p>
+            </div>
+
+            <div id="events_container" style="display: grid; gap: var(--space-lg);">
+                <p id="events_status">Loading events...</p>
+                <!-- Events will be injected here -->
+            </div>
+        </div>
+    </main>
+
+    <!-- RSVP Modal -->
+    <div id="rsvp_modal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 9999; align-items: center; justify-content: center; backdrop-filter: blur(5px);">
+        <div style="background: white; padding: 40px; border-radius: 24px; width: 100%; max-width: 450px; position: relative; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);">
+            <button onclick="closeRSVP()" style="position: absolute; top: 20px; right: 20px; background: none; border: none; font-size: 24px; cursor: pointer; color: #64748b;">✕</button>
+            <h2 class="playfair" style="font-size: 1.8rem; margin-bottom: 10px;">Save your spot!</h2>
+            <p style="color: #64748b; margin-bottom: 25px; line-height: 1.5;">Enter your email to receive the meeting link and event reminders.</p>
+            
+            <div style="display: flex; flex-direction: column; gap: 15px;">
+                <input type="email" id="rsvp_email" placeholder="you@example.com" style="width: 100%; padding: 14px 20px; border-radius: 12px; border: 1.5px solid #e2e8f0; font-size: 1rem;">
+                <button id="rsvp_submit_btn" style="background: #059669; color: white; border: none; padding: 14px; border-radius: 12px; font-weight: 700; cursor: pointer; transition: transform 0.2s;">Register Now</button>
+                <p id="rsvp_status" style="text-align: center; font-size: 0.85rem; min-height: 20px;"></p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <!-- Same footer as index.html -->
+        <div class="container">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--space-xl);">
+                <div>
+                    <h4 style="color: white; margin-bottom: var(--space-md);">CLIMATE ACTION</h4>
+                    <p style="font-size: 0.9rem; opacity: 0.8;">Empowering youth for a sustainable tomorrow.</p>
+                </div>
+                <div>
+                    <h4 style="color: white; margin-bottom: var(--space-md);">Quick Links</h4>
+                    <ul style="list-style: none; font-size: 0.9rem; line-height: 2;">
+                        <li><a href="events.html">Upcoming Events</a></li>
+                        <li><a href="recordings.html">Session Recordings</a></li>
+                        <li><a href="blog.html">Latest Blog Posts</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 style="color: white; margin-bottom: var(--space-md);">Contact</h4>
+                    <p style="font-size: 0.9rem; opacity: 0.8;">hello@climateaction.site</p>
+                </div>
+            </div>
+            <div style="margin-top: var(--space-xl); padding-top: var(--space-lg); border-top: 1px solid rgba(255,255,255,0.1); text-align: center; font-size: 0.8rem; opacity: 0.6;">
+                &copy; 2026 Climate Action Program. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script type="module" src="js/public_events.js"></script>
+</body>
+</html>

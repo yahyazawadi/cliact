@@ -1,0 +1,327 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Recordings | Climate Action</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="stylesheet" href="index.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --card-shadow: 0 10px 30px -5px rgba(0,0,0,0.1);
+            --card-shadow-hover: 0 20px 40px -10px rgba(0,0,0,0.15);
+        }
+        .recordings-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 30px;
+            margin-top: 20px;
+        }
+        .recording-card {
+            background: white;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            display: flex;
+            flex-direction: column;
+        }
+        .recording-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--card-shadow-hover);
+            border-color: var(--primary-light);
+        }
+        .video-preview-wrapper {
+            position: relative;
+            aspect-ratio: 16/9;
+            overflow: hidden;
+            background: #0f172a;
+        }
+        .video-preview {
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            transition: transform 0.6s ease;
+        }
+        .recording-card:hover .video-preview {
+            transform: scale(1.1);
+        }
+        .play-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .recording-card:hover .play-overlay {
+            opacity: 1;
+        }
+        .play-icon {
+            width: 60px;
+            height: 60px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-size: 24px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+        .card-content {
+            padding: 24px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        .rec-date {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--primary);
+            font-weight: 700;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .rec-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.25rem;
+            color: #1e293b;
+            margin-bottom: 12px;
+            line-height: 1.3;
+        }
+        .rec-desc {
+            font-size: 0.9rem;
+            color: #64748b;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: auto;
+            padding-top: 15px;
+            border-top: 1px solid #f1f5f9;
+        }
+        .btn-delete {
+            padding: 8px 16px;
+            border-radius: 10px;
+            background: #fff1f2;
+            color: #e11d48;
+            font-size: 0.85rem;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn-delete:hover {
+            background: #ffe4e6;
+            color: #be123c;
+        }
+        .btn-view {
+            color: var(--primary);
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+
+    <header id="header">
+        <div class="container">
+            <a href="index.html" class="logo">CLIMATE <span>ACTION</span></a>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="admin.html">Dashboard</a></li>
+                    <li><a href="admin_posts.html">Library</a></li>
+                    <li><a href="admin_events.html">Events</a></li>
+                    <li><a href="admin_recordings.html" class="active">Recordings</a></li>
+                    <li><a href="admin_post.html">New Story</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container" style="padding: var(--space-2xl) 0;">
+        <div id="admin_auth_status_container" style="text-align: center; display: none;">
+            <!-- Login check... -->
+        </div>
+
+        <div id="recordings_manager" style="display: none;">
+            <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 50px;">
+                <div>
+                    <h1 class="playfair" style="font-size: 3.5rem; margin-bottom: 12px; background: linear-gradient(to right, #24633d, #5a8a6a); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Recording Studio</h1>
+                    <p style="color: #64748b; font-size: 1.1rem; max-width: 600px;">Curate your public video gallery. Add high-quality YouTube recordings to inspire action.</p>
+                </div>
+                <button onclick="document.getElementById('add_recording_modal').style.display='flex'" class="btn-primary" style="padding: 16px 32px; border-radius: 50px; box-shadow: 0 10px 20px rgba(36, 99, 61, 0.2);">+ Add New Video</button>
+            </div>
+
+            <div id="recordings_list" class="recordings-grid">
+                <!-- Recordings will be injected here -->
+            </div>
+        </div>
+
+        <!-- Add Recording Modal -->
+        <div id="add_recording_modal" style="display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.7); z-index: 1000; align-items: center; justify-content: center; backdrop-filter: blur(8px);">
+            <div style="background: white; width: 95%; max-width: 550px; padding: 45px; border-radius: 32px; box-shadow: 0 25px 60px rgba(0,0,0,0.3); position: relative;">
+                <button onclick="document.getElementById('add_recording_modal').style.display='none'" style="position: absolute; top: 25px; right: 25px; background: #f1f5f9; border: none; width: 35px; height: 35px; border-radius: 50%; cursor: pointer; color: #64748b; font-weight: bold;">✕</button>
+                <h2 class="playfair" style="font-size: 2rem; margin-bottom: 30px;">Add Recording</h2>
+                <div style="display: flex; flex-direction: column; gap: 20px;">
+                    <div>
+                        <label style="display: block; font-size: 0.85rem; font-weight: 600; color: #475569; margin-bottom: 8px;">Video Title</label>
+                        <input type="text" id="rec_title" placeholder="e.g. Youth Climate Summit Keynote" class="login-input" style="width: 100%; border: 2px solid #f1f5f9; border-radius: 14px; padding: 14px; box-sizing: border-box;">
+                    </div>
+                    <div>
+                        <label style="display: block; font-size: 0.85rem; font-weight: 600; color: #475569; margin-bottom: 8px;">Description</label>
+                        <textarea id="rec_desc" placeholder="Briefly describe the content..." class="login-input" style="width: 100%; border: 2px solid #f1f5f9; border-radius: 14px; padding: 14px; height: 120px; resize: none; box-sizing: border-box;"></textarea>
+                    </div>
+                    <div>
+                        <label style="display: block; font-size: 0.85rem; font-weight: 600; color: #475569; margin-bottom: 8px;">Recording Date</label>
+                        <input type="date" id="rec_date_input" class="login-input" style="width: 100%; border: 2px solid #f1f5f9; border-radius: 14px; padding: 14px; box-sizing: border-box;">
+                    </div>
+                    <div>
+                        <label style="display: block; font-size: 0.85rem; font-weight: 600; color: #475569; margin-bottom: 8px;">YouTube URL</label>
+                        <input type="text" id="rec_url" placeholder="https://www.youtube.com/watch?v=..." class="login-input" style="width: 100%; border: 2px solid #f1f5f9; border-radius: 14px; padding: 14px; box-sizing: border-box;">
+                    </div>
+                    <div style="display: flex; gap: 15px; margin-top: 15px;">
+                        <button onclick="publishRecording()" class="btn-primary" style="flex: 2; padding: 16px; border-radius: 14px; font-weight: 700;">Publish to Gallery</button>
+                        <button onclick="document.getElementById('add_recording_modal').style.display='none'" class="btn-secondary" style="flex: 1; padding: 16px; border-radius: 14px; background: #f8fafc; border: 2px solid #f1f5f9; color: #64748b; font-weight: 600;">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script type="module" src="admin_auth.js"></script>
+    <script type="module">
+        // Recordings-specific logic
+        async function loadAdminRecordings() {
+            const list = document.getElementById("recordings_list");
+            const data = await fetchWorkerData();
+            const recs = (data.recordings || []).sort((a,b) => new Date(b.date) - new Date(a.date));
+
+            if (recs.length === 0) {
+                list.innerHTML = `
+                    <div style='grid-column: 1/-1; text-align: center; padding: 100px 40px; background: #f8fafc; border-radius: 30px; border: 2px dashed #e2e8f0;'>
+                        <div style="font-size: 3rem; margin-bottom: 20px;">🎥</div>
+                        <h3 class="playfair" style="font-size: 1.5rem; color: #475569;">No recordings yet</h3>
+                        <p style="color: #94a3b8; margin-top: 10px;">Your public video gallery is waiting for its first story.</p>
+                    </div>`;
+                return;
+            }
+
+            list.innerHTML = recs.map(r => {
+                const vidId = extractYoutubeId(r.url);
+                // Use higher resolution thumbnails
+                const thumb = vidId ? `https://img.youtube.com/vi/${vidId}/maxresdefault.jpg` : "";
+                const fallbackThumb = vidId ? `https://img.youtube.com/vi/${vidId}/hqdefault.jpg` : "";
+                
+                const dateStr = r.date ? new Date(r.date).toLocaleDateString('en-US', { 
+                    month: 'short', 
+                    day: 'numeric', 
+                    year: 'numeric' 
+                }) : "Recently added";
+
+                return `
+                    <div class="recording-card">
+                        <div class="video-preview-wrapper">
+                            <div class="video-preview" style="background-image: url('${thumb}'), url('${fallbackThumb}');"></div>
+                            <div class="play-overlay">
+                                <div class="play-icon">▶</div>
+                            </div>
+                        </div>
+                        <div class="card-content">
+                            <div class="rec-date">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                                ${dateStr}
+                            </div>
+                            <h3 class="rec-title">${r.title}</h3>
+                            <p class="rec-desc">${r.description || "No description provided."}</p>
+                            <div class="card-footer">
+                                <a href="${r.url}" target="_blank" class="btn-view">View on YouTube ↗</a>
+                                <button onclick="deleteRecording('${r.id}')" class="btn-delete">Delete</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function extractYoutubeId(url) {
+            const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+            const match = url.match(regExp);
+            return (match && match[2].length == 11) ? match[2] : null;
+        }
+
+        async function publishRecording() {
+            const title = document.getElementById("rec_title").value.trim();
+            const desc = document.getElementById("rec_desc").value.trim();
+            const url = document.getElementById("rec_url").value.trim();
+            const dateVal = document.getElementById("rec_date_input").value;
+            if (!title || !url) return alert("Please fill in both title and URL");
+
+            const data = await fetchWorkerData();
+            data.recordings = data.recordings || [];
+            data.recordings.push({
+                id: `rec_${Date.now()}`,
+                title,
+                description: desc,
+                url,
+                date: dateVal ? new Date(dateVal).toISOString() : new Date().toISOString()
+            });
+
+            if (await saveWorkerData(data)) {
+                document.getElementById('add_recording_modal').style.display='none';
+                document.getElementById("rec_title").value = "";
+                document.getElementById("rec_desc").value = "";
+                document.getElementById("rec_url").value = "";
+                loadAdminRecordings();
+            }
+        }
+
+        async function deleteRecording(id) {
+            if (!confirm("Are you sure you want to delete this recording?")) return;
+            const data = await fetchWorkerData();
+            data.recordings = data.recordings.filter(r => r.id !== id);
+            if (await saveWorkerData(data)) loadAdminRecordings();
+        }
+
+        // Expose functions to window for HTML onclick attributes
+        window.publishRecording = publishRecording;
+        window.deleteRecording = deleteRecording;
+
+        // Initialize
+        function init() {
+            // Set default date to today
+            const today = new Date().toISOString().split('T')[0];
+            const dateInput = document.getElementById("rec_date_input");
+            if (dateInput) dateInput.value = today;
+
+            if (localStorage.getItem("static_admin_session") === "true") {
+                const manager = document.getElementById("recordings_manager");
+                if (manager) manager.style.display = "block";
+                loadAdminRecordings();
+            } else {
+                window.location.href = "admin.html";
+            }
+        }
+        
+        init();
+    </script>
+</body>
+</html>

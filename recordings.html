@@ -1,0 +1,386 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Session Recordings | Climate Action</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="stylesheet" href="index.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --card-shadow: 0 10px 30px -5px rgba(0,0,0,0.1);
+            --card-shadow-hover: 0 20px 40px -10px rgba(0,0,0,0.15);
+        }
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+        .recording-card {
+            background: white;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            display: flex;
+            flex-direction: column;
+        }
+        .recording-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--card-shadow-hover);
+            border-color: #24633d;
+        }
+        .video-wrapper {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 */
+            height: 0;
+            overflow: hidden;
+            background: #0f172a;
+        }
+        .video-info {
+            padding: 24px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        .rec-date {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #24633d;
+            font-weight: 700;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .rec-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem;
+            color: #1e293b;
+            margin-bottom: 12px;
+            line-height: 1.3;
+        }
+        .rec-desc {
+            color: #64748b;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        /* Fullscreen Modal Styles */
+        .video-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.95);
+            z-index: 2000;
+            backdrop-filter: blur(10px);
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .modal-content {
+            background: white;
+            width: 100%;
+            max-width: 1200px;
+            max-height: 90vh;
+            border-radius: 32px;
+            overflow: hidden;
+            display: flex;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+            position: relative;
+        }
+        @media (max-width: 1000px) {
+            .modal-content { flex-direction: column; max-height: 95vh; overflow-y: auto; }
+        }
+        .modal-video-side {
+            flex: 1.5;
+            background: black;
+            position: relative;
+            padding-bottom: 40%; /* Adjusted for flex */
+        }
+        @media (max-width: 1000px) {
+            .modal-video-side { padding-bottom: 56.25%; flex: none; }
+        }
+        .modal-info-side {
+            flex: 1;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            border-left: 1px solid #f1f5f9;
+        }
+        .modal-close {
+            position: absolute;
+            top: 25px;
+            right: 25px;
+            background: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+        }
+        .modal-close:hover { transform: scale(1.1) rotate(90deg); }
+    </style>
+</head>
+<body>
+
+    <header id="header">
+        <div class="container">
+            <a href="index.html" class="logo">CLIMATE <span>ACTION</span></a>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="events.html">Events</a></li>
+                    <li><a href="recordings.html" class="current">Recordings</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main style="padding: 60px 0;">
+        <div class="container">
+            <div style="text-align: center; max-width: 700px; margin: 0 auto 60px;">
+                <h1 class="playfair" style="font-size: 3rem; margin-bottom: 20px;">Session Recordings</h1>
+                <p style="color: #64748b; font-size: 1.2rem; line-height: 1.6;">Missed a session? Catch up on our latest workshops, summits, and expert interviews here.</p>
+            </div>
+
+            <div id="recordings_container" class="video-grid">
+                <p style="text-align: center; grid-column: 1/-1;">Loading library...</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Fullscreen Video Modal -->
+    <div id="video_modal" class="video-modal" onclick="if(event.target === this) closeVideoModal()">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeVideoModal()">✕</button>
+            <div id="modal_video_container" class="modal-video-side">
+                <!-- Iframe injected here -->
+            </div>
+            <div id="modal_info_container" class="modal-info-side">
+                <!-- Title, Desc, Comments injected here -->
+            </div>
+        </div>
+    </div>
+
+    <footer style="background: #0f172a; color: white; padding: 80px 0 40px;">
+        <div class="container">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px;">
+                <div>
+                    <h4 style="margin-bottom: 20px;">CLIMATE ACTION</h4>
+                    <p style="opacity: 0.7; font-size: 0.9rem;">Building a sustainable future together.</p>
+                </div>
+                <div>
+                    <h4 style="margin-bottom: 20px;">Explore</h4>
+                    <ul style="list-style: none; padding: 0; opacity: 0.7; font-size: 0.9rem; line-height: 2;">
+                        <li><a href="events.html" style="color: white; text-decoration: none;">Events</a></li>
+                        <li><a href="recordings.html" style="color: white; text-decoration: none;">Recordings</a></li>
+                        <li><a href="blog.html" style="color: white; text-decoration: none;">Blog</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div style="margin-top: 60px; padding-top: 30px; border-top: 1px solid rgba(255,255,255,0.1); text-align: center; opacity: 0.5; font-size: 0.8rem;">
+                &copy; 2026 Climate Action. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script type="module">
+        import CONFIG from './js/env_config.js';
+        const workerUrl = CONFIG.WORKER_URL;
+        let currentRecs = [];
+        const userIdentity = localStorage.getItem("climate_action_identity") || "EcoHero_" + Math.random().toString(36).substring(7);
+        localStorage.setItem("climate_action_identity", userIdentity);
+
+        async function loadRecordings() {
+            const container = document.getElementById("recordings_container");
+            if (!container) return;
+
+            try {
+                const response = await fetch(`${workerUrl}/data`);
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                
+                const data = await response.json();
+                currentRecs = Array.isArray(data.recordings) ? data.recordings : [];
+
+                if (currentRecs.length === 0) {
+                    container.innerHTML = `
+                        <div style="grid-column: 1/-1; text-align: center; padding: 100px 20px; background: white; border-radius: 32px; border: 1px solid #e2e8f0; box-shadow: 0 20px 40px rgba(0,0,0,0.03);">
+                            <div style="font-size: 64px; margin-bottom: 20px;">🎬</div>
+                            <h2 class="playfair" style="font-size: 2.5rem; margin-bottom: 15px;">Curating Excellence</h2>
+                            <p style="color: #64748b; font-size: 1.1rem; max-width: 500px; margin: 0 auto;">Our media library is being updated with the latest session recordings. Please check back shortly.</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                currentRecs.sort((a, b) => (new Date(b.date) - new Date(a.date)));
+
+                container.innerHTML = currentRecs.map(r => {
+                    const vidId = extractYoutubeId(r.url || "");
+                    if (!vidId) return "";
+                    const thumbUrl = `https://img.youtube.com/vi/${vidId}/maxresdefault.jpg`;
+                    const dateObj = r.date ? new Date(r.date) : new Date();
+                    const formattedDate = dateObj.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+                    
+                    return `
+                        <div class="recording-card" id="rec_${r.id}">
+                            <div class="video-wrapper" onclick="openVideoModal('${r.id}')">
+                                <img src="${thumbUrl}" onerror="this.src='https://img.youtube.com/vi/${vidId}/hqdefault.jpg'" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;" />
+                                <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 60px; height: 60px; background: rgba(36, 99, 61, 0.9); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 24px;">▶</div>
+                            </div>
+                            <div class="video-info">
+                                <div class="rec-date">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                                    ${formattedDate}
+                                </div>
+                                <h3 class="rec-title">${r.title || "Untitled Recording"}</h3>
+                                <p class="rec-desc">${r.description || ""}</p>
+                                <div style="display: flex; align-items: center; gap: 20px; padding-top: 15px; border-top: 1px solid #f1f5f9;">
+                                    <div style="font-size: 0.85rem; color: #64748b; display: flex; align-items: center; gap: 6px;">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                                        <span id="views_${r.id}">${r.views || 0}</span>
+                                    </div>
+                                    <button onclick="handleRecLike('${r.id}')" id="like_btn_${r.id}" style="background: none; border: none; font-size: 0.85rem; color: #64748b; cursor: pointer; display: flex; align-items: center; gap: 6px;">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+                                        <span id="likes_${r.id}">${r.likes || 0}</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            } catch (err) { console.error(err); }
+        }
+
+        function openVideoModal(recId) {
+            const rec = currentRecs.find(r => r.id === recId);
+            if (!rec) return;
+
+            const vidId = extractYoutubeId(rec.url);
+            const modal = document.getElementById("video_modal");
+            const videoSide = document.getElementById("modal_video_container");
+            const infoSide = document.getElementById("modal_info_container");
+
+            videoSide.innerHTML = `<iframe src="https://www.youtube.com/embed/${vidId}?autoplay=1" allow="autoplay; encrypted-media" allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;"></iframe>`;
+            
+            infoSide.innerHTML = `
+                <h2 class="playfair" style="font-size: 2.2rem; margin-bottom: 10px;">${rec.title}</h2>
+                <p style="color: #64748b; line-height: 1.6; margin-bottom: 30px; font-size: 1.1rem;">${rec.description || "No description provided."}</p>
+                
+                <div style="flex: 1; display: flex; flex-direction: column;">
+                    <h4 style="font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; color: #24633d; margin-bottom: 20px;">Wildlife Conversations</h4>
+                    <div id="modal_comments" style="flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 15px; margin-bottom: 25px; padding-right: 10px;">
+                        ${(rec.comments || []).map(c => `
+                            <div style="background: #f8fafc; padding: 15px 20px; border-radius: 16px; border: 1px solid #e2e8f0;">
+                                <div style="font-weight: 800; color: #24633d; font-size: 0.9rem; margin-bottom: 4px;">${c.author}</div>
+                                <div style="color: #1e293b; font-size: 1rem;">${c.text}</div>
+                            </div>
+                        `).join('') || '<p style="color: #94a3b8;">Be the first to share your thoughts!</p>'}
+                    </div>
+                    
+                    <div style="display: flex; gap: 10px; padding-top: 20px; border-top: 1px solid #f1f5f9;">
+                        <input type="text" id="modal_input" placeholder="Speaking as ${userIdentity}..." style="flex: 1; padding: 12px 18px; border-radius: 12px; border: 1.5px solid #e2e8f0; font-size: 1rem;">
+                        <button onclick="handleRecComment('${rec.id}')" style="background: #24633d; color: white; border: none; padding: 0 25px; border-radius: 12px; font-weight: 700; cursor: pointer;">Post</button>
+                    </div>
+                </div>
+            `;
+
+            modal.style.display = "flex";
+            document.body.style.overflow = "hidden";
+            registerRecView(recId);
+        }
+
+        function closeVideoModal() {
+            const modal = document.getElementById("video_modal");
+            document.getElementById("modal_video_container").innerHTML = "";
+            modal.style.display = "none";
+            document.body.style.overflow = "auto";
+        }
+
+        async function registerRecView(recId) {
+            try {
+                const res = await fetch(`${workerUrl}/rec/view`, { method: 'POST', body: JSON.stringify({ recId }) });
+                const result = await res.json();
+                if (result.success && document.getElementById(`views_${recId}`)) {
+                    document.getElementById(`views_${recId}`).textContent = result.views;
+                }
+            } catch (e) {}
+        }
+
+        async function handleRecLike(recId) {
+            const btn = document.getElementById(`like_btn_${recId}`);
+            if (!btn) return;
+            const isLiked = btn.classList.contains("liked");
+            const path = isLiked ? "/rec/unlike" : "/rec/like";
+            try {
+                const res = await fetch(`${workerUrl}${path}`, { method: 'POST', body: JSON.stringify({ recId }) });
+                const result = await res.json();
+                if (result.success) {
+                    document.getElementById(`likes_${recId}`).textContent = result.likes;
+                    if (isLiked) {
+                        btn.classList.remove("liked");
+                        btn.querySelector("svg").style.fill = "none";
+                        btn.querySelector("svg").style.stroke = "currentColor";
+                    } else {
+                        btn.classList.add("liked");
+                        btn.querySelector("svg").style.fill = "#ef4444";
+                        btn.querySelector("svg").style.stroke = "#ef4444";
+                    }
+                }
+            } catch (e) {}
+        }
+
+        async function handleRecComment(recId) {
+            const input = document.getElementById("modal_input");
+            const text = input?.value.trim();
+            if (!text) return;
+            try {
+                const res = await fetch(`${workerUrl}/rec/comment`, { method: 'POST', body: JSON.stringify({ recId, text, author: userIdentity }) });
+                if (res.ok) {
+                    input.value = "";
+                    const response = await fetch(`${workerUrl}/data`);
+                    const data = await response.json();
+                    currentRecs = Array.isArray(data.recordings) ? data.recordings : [];
+                    openVideoModal(recId); 
+                    loadRecordings(); 
+                }
+            } catch (e) {}
+        }
+
+        function extractYoutubeId(url) {
+            if (!url) return null;
+            if (url.length === 11 && !url.includes("/") && !url.includes(".")) return url;
+            const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+            const match = url.match(regExp);
+            return (match && match[2].length == 11) ? match[2] : null;
+        }
+
+        window.openVideoModal = openVideoModal;
+        window.closeVideoModal = closeVideoModal;
+        window.handleRecLike = handleRecLike;
+        window.handleRecComment = handleRecComment;
+        loadRecordings();
+    </script>
+</body>
+</html>

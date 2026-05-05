@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Story | Admin Dashboard</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="stylesheet" href="index.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --admin-bg: #f8fafc;
+        }
+        body {
+            background-color: var(--admin-bg);
+        }
+        .admin-card {
+            background: white;
+            padding: var(--space-xl);
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            margin-top: var(--space-xl);
+        }
+        .form-group {
+            margin-bottom: var(--space-lg);
+        }
+        .form-label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text);
+        }
+        .form-input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1.5px solid var(--border);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+        
+        /* Editor Toolbar */
+        .editor-toolbar {
+            display: flex;
+            gap: 8px;
+            padding: 8px;
+            background: #f1f5f9;
+            border: 1.5px solid var(--border);
+            border-bottom: none;
+            border-radius: 8px 8px 0 0;
+            flex-wrap: wrap;
+        }
+        .toolbar-btn {
+            padding: 6px 12px;
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        .toolbar-btn:hover {
+            background: var(--primary-light);
+            color: white;
+        }
+        
+        #admin_post_editor {
+            min-height: 400px;
+            padding: 20px;
+            border: 1.5px solid var(--border);
+            border-radius: 0 0 8px 8px;
+            background: white;
+            overflow-y: auto;
+            line-height: 1.6;
+        }
+        #admin_post_editor:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .thumbnail-preview-container {
+            margin-top: 12px;
+            border: 2px dashed var(--border);
+            border-radius: 8px;
+            padding: 12px;
+            text-align: center;
+            min-height: 100px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .publish-btn {
+            background: var(--primary);
+            color: white;
+            padding: 14px 32px;
+            border: none;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: transform 0.2s, background 0.3s;
+            width: 100%;
+            margin-top: var(--space-md);
+        }
+        .publish-btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        #admin_auth_status {
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: var(--space-md);
+        }
+    </style>
+</head>
+<body>
+
+    <header id="header">
+        <div class="container">
+            <a href="index.html" class="logo">CLIMATE <span>ACTION</span></a>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="admin.html">Dashboard</a></li>
+                    <li><a href="admin_posts.html">Library</a></li>
+                    <li><a href="admin_events.html">Events</a></li>
+                    <li><a href="admin_recordings.html">Recordings</a></li>
+                    <li><a href="admin_post.html" class="active">New Story</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container" style="max-width: 900px; padding: var(--space-2xl) 0;">
+        <h1 class="playfair" style="font-size: 3rem; margin-bottom: 8px;">Create Story</h1>
+        <p id="admin_auth_status">Checking access...</p>
+
+        <div id="admin_posting_section" style="display: none;">
+            <div class="admin-card">
+                <form id="admin_post_form">
+                    <div class="form-group">
+                        <label class="form-label" for="admin_post_title">Story Title</label>
+                        <input type="text" id="admin_post_title" class="form-input" placeholder="e.g., The Future of Sustainable Energy" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Thumbnail Image</label>
+                        <div style="display: flex; gap: 10px; margin-bottom: 10px;">
+                            <input type="file" id="admin_thumbnail_file" accept="image/*" style="display: none;">
+                            <button type="button" class="toolbar-btn" onclick="document.getElementById('admin_thumbnail_file').click()">Select File</button>
+                            <button type="button" class="toolbar-btn" id="admin_paste_thumb_btn">Paste from Clipboard</button>
+                        </div>
+                        <div id="admin_thumbnail_preview" class="thumbnail-preview-container">
+                            <p style="color: var(--text-light); font-size: 0.9rem;">No image selected</p>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Story Content</label>
+                        <div class="editor-toolbar">
+                            <button type="button" class="toolbar-btn" onclick="document.execCommand('bold', false, null)">B</button>
+                            <button type="button" class="toolbar-btn" onclick="document.execCommand('italic', false, null)">I</button>
+                            <button type="button" class="toolbar-btn" onclick="document.execCommand('underline', false, null)">U</button>
+                            <button type="button" class="toolbar-btn" onclick="document.execCommand('insertUnorderedList', false, null)">List</button>
+                            <button type="button" class="toolbar-btn" id="admin_insert_img_btn" title="Insert Image">🖼️ Img</button>
+                            <button type="button" class="toolbar-btn" onclick="document.execCommand('justifyLeft', false, null)">Left</button>
+                            <button type="button" class="toolbar-btn" onclick="document.execCommand('justifyCenter', false, null)">Center</button>
+                            <button type="button" class="toolbar-btn" onclick="document.execCommand('justifyRight', false, null)">Right</button>
+                        </div>
+                        <div style="position: relative;">
+                            <div id="admin_post_editor" contenteditable="true"></div>
+                            
+                            <!-- Floating Image Resizer -->
+                            <div id="image_resizer_ui" style="display: none; position: absolute; background: white; padding: 10px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.15); border: 1.5px solid var(--primary); z-index: 100; align-items: center; gap: 10px;">
+                                <label style="font-size: 0.8rem; font-weight: 600;">Size:</label>
+                                <input type="range" id="image_size_slider" min="10" max="100" value="100" style="width: 100px;">
+                                <button type="button" id="image_remove_btn" style="background: #fee2e2; color: #ef4444; border: none; padding: 4px 8px; border-radius: 4px; font-size: 0.7rem; cursor: pointer;">Delete</button>
+                            </div>
+                        </div>
+                        <input type="file" id="admin_inline_img_file" accept="image/*" style="display: none;">
+                        <p style="font-size: 0.8rem; color: var(--text-light); margin-top: 8px;">Tip: Click an image to resize it or paste from clipboard.</p>
+                    </div>
+
+                    <button type="submit" class="publish-btn">Publish Story to Cloudflare</button>
+                    <p id="admin_post_status" style="margin-top: 15px; text-align: center; font-weight: 600;"></p>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <footer style="margin-top: var(--space-2xl);">
+        <div class="container" style="text-align: center; padding: var(--space-xl) 0; border-top: 1px solid var(--border);">
+            <p style="color: var(--text-light);">&copy; 2026 Climate Action Admin. Powered by Cloudflare R2.</p>
+        </div>
+    </footer>
+
+    <script type="module" src="admin_auth.js"></script>
+</body>
+</html>

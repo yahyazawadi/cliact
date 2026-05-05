@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | Climate Action</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="stylesheet" href="index.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --admin-bg: #f8fafc;
+        }
+        body {
+            background-color: var(--admin-bg);
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--space-lg);
+            margin-top: var(--space-xl);
+        }
+        .stat-card {
+            background: white;
+            padding: var(--space-xl);
+            border-radius: 16px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            text-align: center;
+            transition: transform 0.3s;
+        }
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 8px;
+        }
+        .stat-label {
+            font-weight: 600;
+            color: var(--text-light);
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+        }
+
+        /* Login Card */
+        .login-card {
+            max-width: 400px;
+            margin: var(--space-2xl) auto;
+            background: white;
+            padding: var(--space-2xl);
+            border-radius: 24px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+        .login-input {
+            width: 100%;
+            padding: 14px 18px;
+            margin-bottom: 16px;
+            border: 1.5px solid var(--border);
+            border-radius: 12px;
+            font-size: 1rem;
+        }
+        .login-btn {
+            width: 100%;
+            padding: 14px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .login-btn:hover {
+            background: var(--primary-dark);
+        }
+    </style>
+</head>
+<body>
+
+    <header id="header">
+        <div class="container">
+            <a href="index.html" class="logo">CLIMATE <span>ACTION</span></a>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="admin.html" class="active">Dashboard</a></li>
+                    <li><a href="admin_posts.html">Library</a></li>
+                    <li><a href="admin_events.html">Events</a></li>
+                    <li><a href="admin_recordings.html">Recordings</a></li>
+                    <li><a href="admin_post.html">New Story</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container" style="padding: var(--space-2xl) 0;">
+        <div id="admin_auth_status_container" style="text-align: center;">
+            <h1 class="playfair" style="font-size: 3.5rem; margin-bottom: 8px;">Admin Console</h1>
+            <p id="admin_auth_status" style="color: var(--text-light); font-size: 1.1rem;">Access restricted to administrators.</p>
+        </div>
+
+        <!-- LOGIN SECTION -->
+        <div id="admin_login_section" style="display: none;">
+            <div class="login-card">
+                <form id="admin_login_form">
+                    <input type="email" id="admin_email" class="login-input" placeholder="Administrator Email" required>
+                    <input type="password" id="admin_password" class="login-input" placeholder="Password" required>
+                    <button type="submit" class="login-btn">Secure Login</button>
+                    <p id="admin_login_status" style="margin-top: 15px; text-align: center; font-size: 0.9rem;"></p>
+                </form>
+            </div>
+        </div>
+
+        <!-- DASHBOARD SECTION -->
+        <div id="admin_dashboard_section" style="display: none;">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value" id="stat_posts">0</div>
+                    <div class="stat-label">Total Stories</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="stat_views">0</div>
+                    <div class="stat-label">Total Views</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="stat_events">0</div>
+                    <div class="stat-label">Events</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="stat_recordings">0</div>
+                    <div class="stat-label">Recordings</div>
+                </div>
+            </div>
+
+            <div style="margin-top: var(--space-2xl); text-align: center;">
+                <a href="admin_post.html" class="btn primary" style="padding: 16px 40px; text-decoration: none;">Create New Story</a>
+                <button id="admin_sign_out_btn" class="btn" style="background: transparent; border: 1.5px solid var(--border); color: var(--text); padding: 16px 40px; margin-left: 10px;">Sign Out</button>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container" style="text-align: center; padding: var(--space-xl) 0; border-top: 1px solid var(--border);">
+            <p style="color: var(--text-light);">&copy; 2026 Climate Action Infrastructure. Verified Secure.</p>
+        </div>
+    </footer>
+
+    <script type="module" src="admin_auth.js"></script>
+</body>
+</html>
