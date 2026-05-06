@@ -118,6 +118,29 @@
             color: var(--primary);
             margin-bottom: var(--space-md);
         }
+
+        /* Mobile Styles */
+        @media screen and (max-width: 768px) {
+            main.container {
+                padding: var(--space-xl) var(--space-md) !important;
+            }
+            h1.playfair {
+                font-size: 2.2rem !important;
+            }
+            .admin-card {
+                padding: 16px;
+            }
+            .editor-toolbar {
+                justify-content: center;
+            }
+            #admin_post_editor {
+                min-height: 300px;
+            }
+            .publish-btn {
+                font-size: 1rem;
+                padding: 12px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -126,6 +149,11 @@
         <div class="container">
             <a href="index.html" class="logo">CLIMATE <span>ACTION</span></a>
             <nav>
+                <div class="menu-toggle" id="mobile-menu">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
                 <ul class="nav-links">
                     <li><a href="admin.html">Dashboard</a></li>
                     <li><a href="admin_posts.html">Library</a></li>
@@ -137,7 +165,7 @@
         </div>
     </header>
 
-    <main class="container" style="max-width: 900px; padding: var(--space-2xl) 0;">
+    <main class="container" style="max-width: 900px; padding: var(--space-2xl) var(--space-lg);">
         <h1 class="playfair" style="font-size: 3rem; margin-bottom: 8px;">Create Story</h1>
         <p id="admin_auth_status">Checking access...</p>
 
@@ -201,5 +229,11 @@
     </footer>
 
     <script type="module" src="admin_auth.js"></script>
+    <script>
+        document.getElementById('mobile-menu').addEventListener('click', function() {
+            this.classList.toggle('is-active');
+            document.querySelector('.nav-links').classList.toggle('active');
+        });
+    </script>
 </body>
 </html>

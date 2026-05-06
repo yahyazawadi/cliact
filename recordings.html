@@ -139,6 +139,29 @@
             transition: transform 0.2s;
         }
         .modal-close:hover { transform: scale(1.1) rotate(90deg); }
+
+        /* Mobile Styles */
+        @media screen and (max-width: 768px) {
+            main h1.playfair {
+                font-size: 2.2rem !important;
+            }
+            .video-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            .recording-card {
+                border-radius: 16px;
+            }
+            .modal-content {
+                border-radius: 20px;
+            }
+            .modal-info-side {
+                padding: 25px;
+            }
+            .modal-info-side h2 {
+                font-size: 1.5rem !important;
+            }
+        }
     </style>
 </head>
 <body>
@@ -163,7 +186,7 @@
         </div>
     </header>
 
-    <main style="padding: 60px 0;">
+    <main style="padding: 60px var(--space-lg);">
         <div class="container">
             <div style="text-align: center; max-width: 700px; margin: 0 auto 60px;">
                 <h1 class="playfair" style="font-size: 3rem; margin-bottom: 20px;">Session Recordings</h1>
@@ -305,9 +328,9 @@
                         `).join('') || '<p style="color: #94a3b8;">Be the first to share your thoughts!</p>'}
                     </div>
                     
-                    <div style="display: flex; gap: 10px; padding-top: 20px; border-top: 1px solid #f1f5f9;">
-                        <input type="text" id="modal_input" placeholder="Speaking as ${userIdentity}..." style="flex: 1; padding: 12px 18px; border-radius: 12px; border: 1.5px solid #e2e8f0; font-size: 1rem;">
-                        <button onclick="handleRecComment('${rec.id}')" style="background: #24633d; color: white; border: none; padding: 0 25px; border-radius: 12px; font-weight: 700; cursor: pointer;">Post</button>
+                    <div class="comment-input-group" style="padding-top: 20px; border-top: 1px solid #f1f5f9;">
+                        <input type="text" id="modal_input" placeholder="Speaking as ${userIdentity}...">
+                        <button onclick="handleRecComment('${rec.id}')" style="background: #24633d; color: white; border: none; padding: 12px 25px; border-radius: 12px; font-weight: 700; cursor: pointer;">Post</button>
                     </div>
                 </div>
             `;

@@ -485,9 +485,159 @@ footer a:hover {
     animation: fadein 0.5s;
 }
 
-@-webkit-keyframes fadein { from {bottom: 0; opacity: 0;} to {bottom: 30px; opacity: 1;} }
+/* Event Cards (Public) */
+.event-card-item {
+    background: white; 
+    padding: 30px; 
+    border-radius: 24px; 
+    box-shadow: 0 4px 25px rgba(0,0,0,0.06); 
+    border: 1px solid #f1f5f9; 
+    margin-bottom: 30px;
+}
+
+.event-card-header {
+    display: flex; 
+    justify-content: space-between; 
+    align-items: flex-start; 
+    margin-bottom: 20px;
+    gap: var(--space-md);
+}
+
+.event-card-title {
+    font-family: 'Playfair Display', serif; 
+    font-size: 2rem; 
+    margin: 0 0 10px 0;
+    line-height: 1.2;
+}
+
+.btn-join {
+    background: #1e293b; 
+    color: white; 
+    border: none; 
+    padding: 12px 24px; 
+    border-radius: 12px; 
+    font-weight: 600; 
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s;
+}
+
+.btn-join:hover {
+    background: var(--primary);
+    transform: translateY(-2px);
+}
+
+.conversation-box {
+    background: #f8fafc; 
+    border-radius: 20px; 
+    padding: 25px;
+}
+
+.comment-input-group, .reply-input-group {
+    display: flex; 
+    gap: 10px; 
+    padding-top: 15px; 
+    border-top: 1px solid #e2e8f0;
+}
+
+.comment-input-group input, .reply-input-group input {
+    flex: 1; 
+    padding: 12px 18px; 
+    border-radius: 12px; 
+    border: 1.5px solid #e2e8f0; 
+    font-size: 1rem;
+    min-width: 0; /* Prevent flex overflow */
+}
+
+.blog-card {
+    background: white; 
+    border-radius: 20px; 
+    overflow: hidden; 
+    box-shadow: 0 15px 35px rgba(0,0,0,0.05); 
+    transition: transform 0.3s ease; 
+    border: 1px solid #f1f5f9;
+}
+
+.blog-card:hover {
+    transform: translateY(-5px);
+}
+
+.blog-card-img {
+    height: 220px; 
+    overflow: hidden; 
+    position: relative;
+}
+
+.blog-card-img img {
+    width: 100%; 
+    height: 100%; 
+    object-fit: cover; 
+    transition: transform 0.5s ease;
+}
+
+.blog-card-content {
+    padding: 28px;
+}
+
+.blog-card-badge {
+    position: absolute; 
+    top: 15px; 
+    left: 15px; 
+    background: rgba(36, 99, 61, 0.9); 
+    color: white; 
+    padding: 4px 12px; 
+    border-radius: 50px; 
+    font-size: 0.7rem; 
+    font-weight: 700; 
+    text-transform: uppercase; 
+    letter-spacing: 0.5px;
+}
+
+.blog-card {
+    background: white; 
+    border-radius: 20px; 
+    overflow: hidden; 
+    box-shadow: 0 15px 35px rgba(0,0,0,0.05); 
+    transition: transform 0.3s ease; 
+    border: 1px solid #f1f5f9;
+}
+
+.blog-card:hover {
+    transform: translateY(-5px);
+}
+
+.blog-card-img {
+    height: 220px; 
+    overflow: hidden; 
+    position: relative;
+}
+
+.blog-card-img img {
+    width: 100%; 
+    height: 100%; 
+    object-fit: cover; 
+    transition: transform 0.5s ease;
+}
+
+.blog-card-content {
+    padding: 28px;
+}
+
+.blog-card-badge {
+    position: absolute; 
+    top: 15px; 
+    left: 15px; 
+    background: rgba(36, 99, 61, 0.9); 
+    color: white; 
+    padding: 4px 12px; 
+    border-radius: 50px; 
+    font-size: 0.7rem; 
+    font-weight: 700; 
+    text-transform: uppercase; 
+    letter-spacing: 0.5px;
+}
+
 @keyframes fadein { from {bottom: 0; opacity: 0;} to {bottom: 30px; opacity: 1;} }
-@-webkit-keyframes fadeout { from {bottom: 30px; opacity: 1;} to {bottom: 0; opacity: 0;} }
 @keyframes fadeout { from {bottom: 30px; opacity: 1;} to {bottom: 0; opacity: 0;} }
 /* Mobile Responsive Adjustments */
 @media screen and (max-width: 768px) {
@@ -610,5 +760,32 @@ footer a:hover {
         text-align: center;
         gap: var(--space-xl);
         grid-template-columns: 1fr !important;
+    }
+
+    /* Public Events Mobile */
+    .event-card-item {
+        padding: 20px;
+    }
+    .event-card-header {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .event-card-title {
+        font-size: 1.6rem;
+    }
+    .btn-join {
+        width: 100%;
+        text-align: center;
+        padding: 14px;
+    }
+    .conversation-box {
+        padding: 15px;
+    }
+    .comment-input-group, .reply-input-group {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .comment-input-group button, .reply-input-group button {
+        width: 100%;
     }
 }

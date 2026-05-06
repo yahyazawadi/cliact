@@ -46,13 +46,13 @@ async function loadPublicEvents() {
             const emojis = ["🌍", "❤️", "🙌", "🌱", "💡", "🔥"];
 
             return `
-                <div class="event-card-item" style="background: white; padding: 30px; border-radius: 24px; box-shadow: 0 4px 25px rgba(0,0,0,0.06); border: 1px solid #f1f5f9; margin-bottom: 30px;">
-                    <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 20px;">
+                <div class="event-card-item">
+                    <div class="event-card-header">
                         <div>
-                            <h2 style="font-family: 'Playfair Display', serif; font-size: 2rem; margin: 0 0 10px 0;">${ev.title}</h2>
+                            <h2 class="event-card-title">${ev.title}</h2>
                             <p style="color: #64748b; font-weight: 500;">📅 ${new Date(ev.date).toLocaleString()} | 📍 ${ev.location}</p>
                         </div>
-                        <button onclick="openRSVP('${ev.id}')" class="btn-join" style="background: #1e293b; color: white; border: none; padding: 12px 24px; border-radius: 12px; font-weight: 600; cursor: pointer;">Join Event</button>
+                        <button onclick="openRSVP('${ev.id}')" class="btn-join">Join Event</button>
                     </div>
                     
                     <p style="color: #475569; line-height: 1.6; margin-bottom: 25px; font-size: 1.1rem;">${ev.description}</p>
@@ -67,14 +67,14 @@ async function loadPublicEvents() {
                     </div>
 
                     <!-- SOCIAL FEED -->
-                    <div style="background: #f8fafc; border-radius: 20px; padding: 25px;">
+                    <div class="conversation-box">
                         <h4 style="margin: 0 0 20px 0; font-size: 0.9rem; color: #64748b; text-transform: uppercase; letter-spacing: 1px;">Wildlife Conversations</h4>
                         <div id="comments_${ev.id}" style="display: flex; flex-direction: column; gap: 15px; margin-bottom: 20px;">
                             ${comments.map(c => renderComment(ev.id, c)).join('') || '<p style="color: #94a3b8;">Be the first to speak!</p>'}
                         </div>
                         
-                        <div style="display: flex; gap: 10px; padding-top: 15px; border-top: 1px solid #e2e8f0;">
-                            <input type="text" id="input_${ev.id}" placeholder="Speak as ${userIdentity}..." style="flex: 1; padding: 12px 18px; border-radius: 12px; border: 1.5px solid #e2e8f0; font-size: 1rem;">
+                        <div class="comment-input-group">
+                            <input type="text" id="input_${ev.id}" placeholder="Speak as ${userIdentity}...">
                             <button onclick="handleComment('${ev.id}')" style="background: #059669; color: white; border: none; padding: 12px 24px; border-radius: 12px; font-weight: 700; cursor: pointer;">Post</button>
                         </div>
                     </div>
@@ -102,9 +102,9 @@ function renderComment(eventId, comment) {
                 <p style="margin: 0; color: #1e293b; font-size: 1rem;">${comment.text}</p>
                 <button onclick="toggleReplyBox('${comment.id}')" style="background: none; border: none; color: #64748b; font-size: 0.8rem; font-weight: 600; cursor: pointer; margin-top: 10px; padding: 0;">Reply</button>
                 
-                <div id="reply_box_${comment.id}" style="display: none; margin-top: 15px; gap: 10px; align-items: center;">
-                    <input type="text" id="reply_input_${comment.id}" placeholder="Reply to ${comment.author}..." style="flex: 1; padding: 8px 12px; border-radius: 8px; border: 1.5px solid #e2e8f0; font-size: 0.9rem;">
-                    <button onclick="handleReply('${eventId}', '${comment.id}')" style="background: #1e293b; color: white; border: none; padding: 8px 15px; border-radius: 8px; font-weight: 600; cursor: pointer;">Send</button>
+                <div id="reply_box_${comment.id}" class="reply-input-group" style="display: none;">
+                    <input type="text" id="reply_input_${comment.id}" placeholder="Reply to ${comment.author}...">
+                    <button onclick="handleReply('${eventId}', '${comment.id}')" style="background: #1e293b; color: white; border: none; padding: 12px 24px; border-radius: 12px; font-weight: 600; cursor: pointer;">Send</button>
                 </div>
             </div>
 

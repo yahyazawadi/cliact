@@ -205,14 +205,14 @@ function renderPosts(posts) {
     if (!feed) return;
 
     feed.innerHTML = posts.map(post => `
-        <article class="blog-card" style="background: white; border-radius: 20px; overflow: hidden; box-shadow: 0 15px 35px rgba(0,0,0,0.05); transition: transform 0.3s ease; border: 1px solid #f1f5f9;">
+        <article class="blog-card">
             ${post.thumbnailUrl ? `
-                <div style="height: 220px; overflow: hidden; position: relative;">
-                    <img src="${post.thumbnailUrl}" alt="${post.title}" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease;" />
-                    <div style="position: absolute; top: 15px; left: 15px; background: rgba(36, 99, 61, 0.9); color: white; padding: 4px 12px; border-radius: 50px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">Story</div>
+                <div class="blog-card-img">
+                    <img src="${post.thumbnailUrl}" alt="${post.title}" />
+                    <div class="blog-card-badge">Story</div>
                 </div>
             ` : ''}
-            <div style="padding: 28px;">
+            <div class="blog-card-content">
                 <h3 class="playfair" style="font-size: 1.6rem; margin-bottom: 12px; color: #1e293b; line-height: 1.3;">${post.title}</h3>
                 <p style="color: #64748b; line-height: 1.7; margin-bottom: 24px; font-size: 1rem;">${extractSnippet(post.contentHtml)}</p>
                 <div style="display: flex; align-items: center; justify-content: space-between; padding-top: 20px; border-top: 1px solid #f1f5f9;">

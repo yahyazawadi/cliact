@@ -77,6 +77,29 @@
         .login-btn:hover {
             background: var(--primary-dark);
         }
+
+        /* Mobile Styles */
+        @media screen and (max-width: 768px) {
+            #admin_auth_status_container h1 {
+                font-size: 2.5rem !important;
+            }
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            .stat-card {
+                padding: var(--space-lg);
+            }
+            #admin_dashboard_section div:last-child {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+            }
+            #admin_dashboard_section div:last-child a,
+            #admin_dashboard_section div:last-child button {
+                width: 100%;
+                margin-left: 0 !important;
+            }
+        }
     </style>
 </head>
 <body>
@@ -85,6 +108,11 @@
         <div class="container">
             <a href="index.html" class="logo">CLIMATE <span>ACTION</span></a>
             <nav>
+                <div class="menu-toggle" id="mobile-menu">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
                 <ul class="nav-links">
                     <li><a href="admin.html" class="active">Dashboard</a></li>
                     <li><a href="admin_posts.html">Library</a></li>
@@ -96,7 +124,7 @@
         </div>
     </header>
 
-    <main class="container" style="padding: var(--space-2xl) 0;">
+    <main class="container" style="padding: var(--space-2xl) var(--space-lg);">
         <div id="admin_auth_status_container" style="text-align: center;">
             <h1 class="playfair" style="font-size: 3.5rem; margin-bottom: 8px;">Admin Console</h1>
             <p id="admin_auth_status" style="color: var(--text-light); font-size: 1.1rem;">Access restricted to administrators.</p>
@@ -143,11 +171,17 @@
     </main>
 
     <footer>
-        <div class="container" style="text-align: center; padding: var(--space-xl) 0; border-top: 1px solid var(--border);">
+        <div class="container" style="text-align: center; padding: var(--space-xl) var(--space-lg); border-top: 1px solid var(--border);">
             <p style="color: var(--text-light);">&copy; 2026 Climate Action Infrastructure. Verified Secure.</p>
         </div>
     </footer>
 
     <script type="module" src="admin_auth.js"></script>
+    <script>
+        document.getElementById('mobile-menu').addEventListener('click', function() {
+            this.classList.toggle('is-active');
+            document.querySelector('.nav-links').classList.toggle('active');
+        });
+    </script>
 </body>
 </html>

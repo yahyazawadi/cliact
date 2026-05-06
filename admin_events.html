@@ -80,6 +80,27 @@
             font-weight: 600;
             cursor: pointer;
         }
+
+        /* Mobile Styles */
+        @media screen and (max-width: 768px) {
+            .header-section {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 20px;
+            }
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+            .event-card {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            .btn-delete {
+                width: 100%;
+                text-align: center;
+            }
+        }
     </style>
 </head>
 <body>
@@ -88,6 +109,11 @@
         <div class="container">
             <a href="index.html" class="logo">CLIMATE <span>ACTION</span></a>
             <nav>
+                <div class="menu-toggle" id="mobile-menu">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
                 <ul class="nav-links">
                     <li><a href="admin.html">Dashboard</a></li>
                     <li><a href="admin_posts.html">Library</a></li>
@@ -281,6 +307,11 @@
         }
 
         loadAdminEvents();
+
+        document.getElementById('mobile-menu').addEventListener('click', function() {
+            this.classList.toggle('is-active');
+            document.querySelector('.nav-links').classList.toggle('active');
+        });
     </script>
 </body>
 </html>
