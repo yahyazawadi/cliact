@@ -31,14 +31,14 @@
     </header>
 
     <main>
-        <section class="hero">
+        <section class="hero reveal">
             <div class="container">
                 <div class="hero-content">
                     <h1>A Hopeful Future for Our Planet</h1>
                     <p>Connecting young leaders across borders to share knowledge, inspire change, and take meaningful action against the climate crisis.</p>
-                    <div style="display: flex; gap: var(--space-md);">
+                    <div class="hero-actions">
                         <a href="events.html" class="btn btn-primary">Join an Event</a>
-                        <a href="blog.html" class="btn" style="border: 1px solid var(--border);">Read Our Stories</a>
+                        <a href="blog.html" class="btn btn-outline">Read Our Stories</a>
                     </div>
                 </div>
                 <div class="hero-image">
@@ -48,14 +48,14 @@
             </div>
         </section>
 
-        <section style="padding: var(--space-2xl) 0;">
+        <section class="section-padding reveal">
             <div class="container">
-                <div style="max-width: 700px; margin: 0 auto; text-align: center;">
+                <div class="mission-header">
                     <h2>Our Mission</h2>
-                    <p style="font-size: 1.1rem; color: var(--text-light);">We believe that the climate crisis is not just a challenge to be solved, but an opportunity to build a more connected and equitable world. Through our exchange program, we empower the next generation of climate leaders.</p>
+                    <p class="mission-text">We believe that the climate crisis is not just a challenge to be solved, but an opportunity to build a more connected and equitable world. Through our exchange program, we empower the next generation of climate leaders.</p>
                 </div>
                 
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: var(--space-xl); margin-top: var(--space-xl);">
+                <div class="mission-grid">
                     <div class="card">
                         <h3>Connect</h3>
                         <p>Join virtual and in-person meetups with youth from around the globe. Share your local climate challenges and learn from others.</p>
@@ -75,7 +75,7 @@
 
     <footer>
         <div class="container">
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--space-xl);">
+            <div class="footer-grid">
                 <div>
                     <h4 style="color: white; margin-bottom: var(--space-md);">CLIMATE ACTION</h4>
                     <p style="font-size: 0.9rem; opacity: 0.8;">Empowering youth for a sustainable tomorrow.</p>
@@ -108,6 +108,21 @@
             menu.classList.toggle('is-active');
             menuLinks.classList.toggle('active');
         });
+
+        // Intersection Observer for Scroll Animations
+        const observerOptions = {
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
     </script>
 </body>
 </html>
